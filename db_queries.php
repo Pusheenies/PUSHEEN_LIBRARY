@@ -154,4 +154,7 @@ $select_overdue_books = "SELECT user_id FROM borrows WHERE borrow_date < CURRENT
 /* Sample query to grant privileges of adding books to database to staff */
 $grant_pivileges_staff = "GRANT INSERT INTO books FROM users WHERE security_group = staff;";
 
+/* Sample query to check username and password exist in the db*/
+select user_id from users where username='username' and password=PASSWORD('password');
+
 ?>
