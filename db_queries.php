@@ -1,30 +1,30 @@
 <?php
 //Sample Admin connect user account statement
-$new_user_admin = 'CREATE USER 'adminusername'@'localhost' IDENTIFIED BY 'password';
+$new_user_admin = "CREATE USER 'admin'@'localhost' IDENTIFIED BY 'adminpassword';
                    GRANT ALL
                    ON pusheen_library.*
-                   TO 'adminusername'@'localhost' WITH GRANT OPTION;
-                   FLUSH PRIVILEGES;';
+                   TO 'admin'@'localhost' WITH GRANT OPTION;
+                   FLUSH PRIVILEGES;";
 
 //Sample Staff connect account statement
-$new_user_staff = 'CREATE USER 'staffusernam'@'localhost' IDENTIFIED BY 'password';
+$new_user_staff = "CREATE USER 'staff'@'localhost' IDENTIFIED BY 'staffpassword';
                    GRANT SELECT, INSERT, UPDATE, DELETE
                    ON pusheen_library.*
-                   TO 'staffusername'@'localhost';
-                   FLUSH PRIVILEGES;';
+                   TO 'staff'@'localhost';
+                   FLUSH PRIVILEGES;";
 
 //Sample User connect user account statement
-$new_user_general = 'CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
-                     GRANT SELECT, INSERT
-                    ON pusheen_library.*
-                    TO 'username'@'localhost';
-                    FLUSH PRIVILEGES;';
+$new_user_general = "CREATE USER 'user'@'localhost' IDENTIFIED BY 'userpassword';
+                     GRANT SELECT, INSERT, UPDATE
+                     ON pusheen_library.*
+                     TO 'user'@'localhost';
+                     FLUSH PRIVILEGES;";
 
 /* Query to add genres to the database */
-$add_genre = 'INSERT INTO genres
+$add_genre = "INSERT INTO genres
               (genre_name)
               VALUES
-              ('Thriller');';
+              ('Thriller');";
 
 /* Query to add books to the database */
 $add_book = "INSERT INTO books
@@ -149,12 +149,16 @@ $select_borrows = "SELECT user_id FROM borrows WHERE book_id = 5; - sees all peo
 $select_borrows2 = "SELECT borrow_date FROM borrows WHERE book_id = 5; - sees all dates this story was borrowed";
 
 /*Query to see users that have overdue book borrows*/
-$select_overdue_books = "SELECT user_id FROM borrows WHERE borrow_date < CURRENT_DATE - INTERVAL ‘3’ MONTH;";
+$select_overdue_books = "SELECT user_id FROM borrows WHERE borrow_date < CURRENT_DATE - INTERVAL '3' MONTH;";
 
 /* Sample query to grant privileges of adding books to database to staff */
 $grant_pivileges_staff = "GRANT INSERT INTO books FROM users WHERE security_group = staff;";
 
 /* Sample query to check username and password exist in the db*/
-select user_id from users where username='username' and password=PASSWORD('password');
+$check_login = "SELECT user_id FROM users WHERE username = 'username' AND password = PASSWORD('password');";
+
+/* Sample query to check privileges before we run a query */
+/* Not sure if we actually need to do this, cannot find people using this in any examples */
+$show_privileges = "SHOW GRANTS FOR 'admin'@'localhost';";
 
 ?>
