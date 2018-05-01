@@ -1,5 +1,45 @@
 <?php
 
+class Login {
+    private $username;
+    private $text_password;
+    private $pdo;
+ 
+    function __construct($username, $text_password) {
+        $this->username = $username;
+        $this->text_password = $text_password;
+    }
+    
+    function db_connect() {
+        try {
+            $username = 'root';
+            $dsn = 'mysql:host=localhost;dbname=Pusheen_Library';
+            
+            $pdo = new PDO($dsn, $username);
+            $this->pdo = $pdo;
+        } catch (PDOException $e) {
+            die("Error. " . $e);
+        } 
+    }
+    
+    function check_credentials() {
+        $sql = "SELECT user_id, security_group FROM users WHERE username = :username AND password = PASSWORD(:password);";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            'username' => $this->username,
+            'password' => $this->text_password
+        ]);
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            echo "Login Successful";
+        } else {
+            echo "Login Unsuccessful";
+        }
+    }
+}
+
 class Book {
     private $book_id;
     private $date_added;
@@ -719,51 +759,58 @@ class user3 {
     }
 
 }
-	//Created this connection to the db just for testing purposes
-	$hostname = "localhost";
-	$username = "user";
-	$password = "password";
-	$dbname = "pusheen_library";
+/* 
+ * I have commented the code below because it causes errors when including this file
+ */
 
-	//Created an array for the connection
-	$conn = new mysqli($hostname, $username, $password, $dbname);
+/*
+//Created this connection to the db just for testing purposes
+$hostname = "localhost";
+$username = "user";
+$password = "password";
+$dbname = "pusheen_library";
 
-	// If statement to check connection
-	if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
+//Created an array for the connection
+$conn = new mysqli($hostname, $username, $password, $dbname);
+
+// If statement to check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-        /* Instantiating the class > Used LEFT JOIN because I want everything
-         * from the user_details table using foreign key user_id to fetch required data
-         * required username & password from the users table.  Used a LEFT JOIN to fetch
-         * everything from the user_preferences table using foreign key user_id to fetch
-         * required data phone_contact & email_contact*/
-		$sql = "SELECT u.user_id, u.username, u.security_group, ud.forename, ud.surname, ud.address_line1,
-        ud.address_line2, ud.address_line3, ud.city, ud.postcode, ud.phone, ud.email, up.email_contact, up.phone_contact,
-        up.phone_date from users u LEFT JOIN user_details ud on ud.user_id=u.user_id LEFT JOIN user_preferences up
-        on up.user_id=u.user_id;";
-		$result = $conn->query($sql);
+/* Instantiating the class > Used LEFT JOIN because I want everything
+ * from the user_details table using foreign key user_id to fetch required data
+ * required username & password from the users table.  Used a LEFT JOIN to fetch
+ * everything from the user_preferences table using foreign key user_id to fetch
+ * required data phone_contact & email_contact*/
+/*
+$sql = "SELECT u.user_id, u.username, u.security_group, ud.forename, ud.surname, ud.address_line1,
+ud.address_line2, ud.address_line3, ud.city, ud.postcode, ud.phone, ud.email, up.email_contact, up.phone_contact,
+up.phone_date from users u LEFT JOIN user_details ud on ud.user_id=u.user_id LEFT JOIN user_preferences up
+on up.user_id=u.user_id;";
 
-	if ($result->num_rows > 0) {
-		// output data of each row
-		while($row = $result->fetch_assoc()) {
-		$user = new user($row["user_id"], $row["username"], $row["security_group"],
-		$row["forename"], $row["surname"], $row["address_line1"], $row["address_line2"],
-		$row["address_line3"], $row["city"], $row["postcode"], $row["phone"], $row["email"],
-		$row["phone_contact"], $row["email_contact"]);
+$result = $conn->query($sql);
 
-		//Created objects
-		echo "USERNAME: ".$user->getUser_name()."<br>"."<br>";
-		echo "NAME: ".$user->getForename(). $user->getSurname()."<br>"."<br>";
-		echo "ADDRESS: ".$user->getAddress_line1().$user->getAddress_line2().$user->getAddress_line3() ."<br>";
-		echo $user->getCity()."<br>";
-		echo $user->getPostcode()."<br>"."<br>";
-		echo "PHONE: ".$user->getPhone()."<br>"."<br>";
-		echo "EMAIL: ".$user->getEmail()."<br>";
-		echo "CONTACT PREFERENCE: ". "Phone:" . $user->getPhone_contact(). "  or  " . "Email:" . $user->getEmail_contact()."<br>";
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $user = new user($row["user_id"], $row["username"], $row["security_group"],
+    $row["forename"], $row["surname"], $row["address_line1"], $row["address_line2"],
+    $row["address_line3"], $row["city"], $row["postcode"], $row["phone"], $row["email"],
+    $row["phone_contact"], $row["email_contact"]);
 
-    		}
-	} else {
-    		echo "0 results";
-	}
+    //Created objects
+    echo "USERNAME: ".$user->getUser_name()."<br>"."<br>";
+    echo "NAME: ".$user->getForename(). $user->getSurname()."<br>"."<br>";
+    echo "ADDRESS: ".$user->getAddress_line1().$user->getAddress_line2().$user->getAddress_line3() ."<br>";
+    echo $user->getCity()."<br>";
+    echo $user->getPostcode()."<br>"."<br>";
+    echo "PHONE: ".$user->getPhone()."<br>"."<br>";
+    echo "EMAIL: ".$user->getEmail()."<br>";
+    echo "CONTACT PREFERENCE: ". "Phone:" . $user->getPhone_contact(). "  or  " . "Email:" . $user->getEmail_contact()."<br>";
 
+        }
+} else {
+    echo "0 results";
+}
+*/
 ?>
