@@ -10,21 +10,9 @@ class Login {
         $this->text_password = $text_password;
     }
     
-    function db_connect() {
-        try {
-            $username = 'root';
-            $dsn = 'mysql:host=localhost;dbname=Pusheen_Library';
-            
-            $pdo = new PDO($dsn, $username);
-            $this->pdo = $pdo;
-        } catch (PDOException $e) {
-            die("Error. " . $e);
-        } 
-    }
-    
-    function check_credentials() {
+    function check_credentials($pdo) {
         $sql = "SELECT user_id, security_group FROM users WHERE username = :username AND password = PASSWORD(:password);";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->execute([
             'username' => $this->username,
             'password' => $this->text_password
