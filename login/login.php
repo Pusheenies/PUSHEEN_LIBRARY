@@ -8,6 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_REQUEST['username'];
     $password = $_REQUEST['password'];
             
-    $login = new Login($username, $password);
-    $login->check_credentials($pdo);
+    $user = new User_Login($username, $password);
+    $user->login($pdo);
 }

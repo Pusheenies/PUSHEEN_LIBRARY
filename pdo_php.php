@@ -1,4 +1,5 @@
 <?php
+
 try {
     $username = 'root';
     $dsn = 'mysql:host=localhost;dbname=Pusheen_Library';

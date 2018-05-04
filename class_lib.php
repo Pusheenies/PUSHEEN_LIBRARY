@@ -1,16 +1,15 @@
 <?php
 
-class Login {
+class User_Login {
     private $username;
     private $text_password;
-    private $pdo;
- 
+
     function __construct($username, $text_password) {
         $this->username = $username;
         $this->text_password = $text_password;
     }
     
-    function check_credentials($pdo) {
+    function login($pdo) {
         $sql = "SELECT user_id, security_group FROM users WHERE username = :username AND password = PASSWORD(:password);";
         $statement = $pdo->prepare($sql);
         $statement->execute([
@@ -21,6 +20,10 @@ class Login {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         
         if ($result) {
+            session_start();        
+            $_SESSION["id"] = $result['user_id'];
+            $_SESSION["security"] = $result['security_group'];
+
             echo "Login Successful";
         } else {
             echo "Login Unsuccessful";
