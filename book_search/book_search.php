@@ -3,7 +3,7 @@ session_start();
 
 //////REDIRECT if not logged in
 
-include "pdo.php";
+include "../pdo_php.php";
 include "class_search.php";
 
 //$pdo= new PDO("mysql:host=localhost;dbname=Pusheen_library", "root", "");

@@ -6,7 +6,7 @@ session_start();
 //////get security details: user or staff
 //////if not staff, redirect to login
 
-include "pdo.php";
+include "../pdo_php.php";
 include "class_book.php";
 
 //editing the books table: note that image_url and stock can be NULL in DB
