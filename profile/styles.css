@@ -1,0 +1,19 @@
+.section {
+    margin: 10px;
+}
+
+#column-1, #column-2 {
+    height: 600px;
+}
+
+#square-top, #square-bottom {
+    height: 290px;
+}
+
+.card {
+    padding: 10px;
+}
+
+.borrow_img {
+    width: 60px;
+}

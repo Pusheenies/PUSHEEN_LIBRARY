@@ -31,6 +31,219 @@ class User_Login {
     }
 }
 
+class User_Profile {
+    protected $id;
+    private $username;
+    private $forename;
+    private $surname;
+    private $security;
+    private $genres;
+    private $address_line1;
+    private $address_line2;
+    private $address_line3;
+    private $city;
+    private $postcode;
+    private $phone;
+    private $email;
+    private $email_contact_pref;
+    private $phone_contact_pref;
+
+    function __construct($id, $security, $pdo) {
+        $this->id = $id;
+        $this->security = $security;
+        
+        $this->set_details($pdo);
+    }
+
+    private function set_details($pdo) {
+        $sql = "SELECT u.username, ud.forename, ud.surname, 
+                ud.address_line1, ud.address_line2, ud.address_line3, ud.city, ud.postcode, 
+                ud.phone, ud.email, up.email_contact, up.phone_contact 
+                FROM users u 
+                LEFT JOIN user_details ud ON ud.user_id = u.user_id 
+                LEFT JOIN user_preferences up ON up.user_id = u.user_id 
+                WHERE u.user_id = :id 
+                LIMIT 1;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        foreach ($result as $key => $data) {
+            $this->$key = $data;
+        }
+    }
+    
+    function get_id() {
+        return $this->id;
+    }
+
+    function get_username() {
+        return $this->username;
+    }
+
+    function get_forename() {
+        return $this->forename;
+    }
+
+    function get_surname() {
+        return $this->surname;
+    }
+
+    function get_security() {
+        return $this->security;
+    }
+
+    function get_genres() {
+        return $this->genres;
+    }
+
+    function get_address_line1() {
+        return $this->address_line1;
+    }
+
+    function get_address_line2() {
+        return $this->address_line2;
+    }
+
+    function get_address_line3() {
+        return $this->address_line3;
+    }
+
+    function get_city() {
+        return $this->city;
+    }
+
+    function get_postcode() {
+        return $this->postcode;
+    }
+
+    function get_phone() {
+        return $this->phone;
+    }
+
+    function get_email() {
+        return $this->email;
+    }
+
+    function get_email_contact_pref() {
+        return $this->email_contact_pref;
+    }
+
+    function get_phone_contact_pref() {
+        return $this->phone_contact_pref;
+    }
+}
+
+class General_User_Profile extends User_Profile {
+    private $borrows;
+    private $borrows_data;
+    
+    function borrows($pdo) {
+        $sql = "SELECT bo.borrow_id, b.title, a.author_name, b.image_url,
+                bo.borrow_date, bo.return_date, bo.returned_in_time, bo.returned_book
+                FROM borrows bo
+                JOIN books b ON b.book_id = bo.book_id 
+                JOIN authors_books ab ON ab.book_id = b.book_id 
+                JOIN authors a ON a.author_id = ab.author_id 
+                WHERE bo.user_id = :id
+                ORDER BY bo.borrow_id;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->borrows_data[] = $result;
+        }
+        
+        $this->set_borrows($pdo);
+    }
+    
+    private function set_borrows($pdo) {
+        $sql = "SELECT count(bo.borrow_id) borrows_count
+                FROM borrows bo
+                WHERE bo.user_id = :id
+                GROUP BY bo.user_id;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        $this->borrows = $result['borrows_count'] ?? 0;
+    }
+    
+    function get_square_top() {
+        return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
+                    '<ul>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Username: ' . $this->get_username() .
+                        '</li>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Password: *************' .
+                            '<a href=\'#\'> Edit</a>' .
+                        '</li>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Email: ' . $this->get_email() .
+                            '<a href=\'#\'> Edit</a>' .
+                        '</li>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Borrows: '. $this->get_borrows() .
+                            '<a href=\'#\'> Info</a>' .
+                        '</li>' .
+                    '</ul>';
+    }
+    
+    function get_square_bottom($borrows) {
+        $html = '<h2>Your past borrows</h2>' .
+                 '<div class=\'row\'>';
+        
+        if (!$borrows) {
+            $html .=  '<div class=\'col-sm-12\'>No borrows yet!</div>';
+        } else {
+            foreach ($borrows as $borrow) {
+                $html .= '<div class=\'col-sm-3\'>' .
+                            '<img class=\'borrow_img\' src=\'' . $borrow['image_url'] . '\'>' .
+                         '</div>';                  
+            }
+        }
+        $html .= '</div>';
+        
+        return $html;
+    }
+         
+    function get_borrows() {
+        return $this->borrows;
+    }
+    
+    function get_borrows_data() {
+        return $this->borrows_data;
+    }
+}
+
+class Staff_User_Profile extends User_Profile {
+    function get_square_top() {
+        return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
+                    '<ul>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Username: ' . $this->get_username() .
+                        '</li>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Password: *************' .
+                            '<a href=\'#\'> Edit</a>' .
+                        '</li>' .
+                        '<li><span class=\'icon\'>&#xF410;</span>' .
+                            'Email: ' . $this->get_email() .
+                            '<a href=\'#\'> Edit</a>' .
+                        '</li>' .
+                    '</ul>';
+    }
+}
+
 class Book {
     private $book_id;
     private $date_added;
