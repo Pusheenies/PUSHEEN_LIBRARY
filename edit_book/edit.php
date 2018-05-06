@@ -1,13 +1,20 @@
 <?php
 session_start();
 
-//////REDIRECT if not logged in
+//redirect if not logged in
+if (!isset($_SESSION["id"])){
+    header("Location: ../login/index.html");
+    return;
+}
 
-//////get security details: user or staff
-//////if not staff, redirect to login
+//if not staff, redirect to login
+if ($_SESSION["security"]==="user"){
+    header("Location: ../login/index.html");
+    return;
+}
 
 include "../pdo_php.php";
-include "class_book.php";
+include "../class_book.php";
 
 //editing the books table: note that image_url and stock can be NULL in DB
 if (!empty($_REQUEST["title"]) && !empty($_REQUEST["isbn"]) && !empty($_REQUEST["genre_id"]) &&
@@ -44,11 +51,10 @@ if (!empty($_REQUEST["title"]) && !empty($_REQUEST["isbn"]) && !empty($_REQUEST[
     $stmt= $pdo->prepare("UPDATE authors_books SET author_id=:author_id WHERE book_id=:book_id");
     $stmt->execute(array(":author_id" => $row["author_id"], ":book_id" => $_REQUEST["book_id"]));
     
-    //RETURN TO DASHBOARD
-    //echo "Details updated successfully.";
-    //$_SESSION["success"]= "Details updated successfully.";  //use it on dashboard?
-    //header("Location: edit.php");
-    //return;
+    //RETURN TO DASHBOARD instead?
+    $_SESSION["success_edit"]= "Update successful.";
+    header("Location: ../book_search/book_search.php");
+    return;
 }
 
 
@@ -79,6 +85,9 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
     <body>
     <div class="container">
             <h1 class="text-center">Edit details: <?=$book->getTitle()?></h1>
+            <div class="text-center">
+                <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>">
+            </div>
             <form action="" method="post" class="col-sm-6 offset-sm-3">
                 <div class="form-group">
                     <label for="title">Title:</label>
@@ -163,6 +172,8 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
 
                 <div class="text-center">
                     <input type="submit" value="Edit details" class="btn btn-warning"/>
+                    <br>
+                    <a href="../book_search/search_results.php">Cancel</a>
                 </div>
             </form>
         </div>

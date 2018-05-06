@@ -1,13 +1,28 @@
 <?php
 session_start();
 
-//////REDIRECT if not logged in
+//redirect if not logged in
+if (!isset($_SESSION["id"])){
+    header("Location: ../login/index.html");
+    return;
+}
+
+//////to put into dashboard page instead///////
+if (isset($_SESSION["success_delete"])){
+    echo $_SESSION["success_delete"];
+    unset($_SESSION["success_delete"]);
+
+}
+if (isset($_SESSION["success_edit"])){
+    echo $_SESSION["success_edit"];
+    unset($_SESSION["success_edit"]);
+}
+//////////////////////////////////////////////
+
 
 include "../pdo_php.php";
-include "class_search.php";
+include "../class_search.php";
 
-//$pdo= new PDO("mysql:host=localhost;dbname=Pusheen_library", "root", "");
-//$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //creating a new Search instance if one of the fields is not empty
 if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUEST["isbn"]) ||
@@ -104,7 +119,6 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
                 </div>
             </form>
         </div>
-
 
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

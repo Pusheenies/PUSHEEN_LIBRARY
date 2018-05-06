@@ -1,14 +1,15 @@
 <?php
 session_start();
 
-//////REDIRECT if not logged in
+//redirect if not logged in
+if (!isset($_SESSION["id"])){
+    header("Location: ../login/index.html");
+    return;
+}
 
-//////get security details: user or staff
-$security= "staff";
-
-include "class_book.php";
+include "../class_book.php";
+$security= $_SESSION["security"];
 $results= $_SESSION["search_results"];
-//print_r($results);
 $book_objects= [];
 
 foreach($results as $book){
@@ -17,7 +18,6 @@ foreach($results as $book){
                             $book["publication_year"], $book["book_location"], $book["date_added"],
                             $book["author_id"], $book["author_name"]);
 }
-
 ?>
 
 <html>
@@ -45,9 +45,9 @@ foreach($results as $book){
                     echo "<em>" . $book->getBook_format() . "</em><br>";
                     echo "</div>";
                     echo "<div class='card-footer'>";
-                    if ($security=="staff"){
-                        echo "<a href='edit.php?book_id=".$book->getBook_id()."' class='btn btn-warning' style='margin:5px 5px 5px 5px;'>Edit</a>";
-                        echo "<a href='delete.php?book_id=".$book->getBook_id()."' class='btn btn-danger' style='margin:5px 5px 5px 5px;'>Delete</a>";
+                    if ($security=="staff" || $security=="admin"){
+                        echo "<a href='../edit_book/edit.php?book_id=".$book->getBook_id()."' class='btn btn-warning' style='margin:5px 5px 5px 5px;'>Edit</a>";
+                        echo "<a href='../delete_book/delete.php?book_id=".$book->getBook_id()."' class='btn btn-danger' style='margin:5px 5px 5px 5px;'>Delete</a>";
                     } else {
                         if($book->getStock()>=1){
                             echo "<a href='#' class='btn btn-info' style='margin:5px 5px 5px 5px;'>Borrow</a>";
