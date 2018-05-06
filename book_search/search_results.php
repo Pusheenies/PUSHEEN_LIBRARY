@@ -31,6 +31,7 @@ foreach($results as $book){
         <link rel="stylesheet" href="search_results.css">
     </head>
     <body>
+        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
         <div class="container">
         <h1 class="text-center">Your results</h1>
         <div class="flex-container">
@@ -50,8 +51,11 @@ foreach($results as $book){
                         echo "<a href='../delete_book/delete.php?book_id=".$book->getBook_id()."' class='btn btn-danger' style='margin:5px 5px 5px 5px;'>Delete</a>";
                     } else {
                         if($book->getStock()>=1){
-                            echo "<a href='#' class='btn btn-info' style='margin:5px 5px 5px 5px;'>Borrow</a>";
+                            echo "<a href='#' class='btn btn-primary' style='margin:5px 5px 5px 5px;'>Borrow</a>";
+                        } else {
+                            echo "Unavailable at the moment.";
                         }
+                        echo "<a href='../leave_rating/rating.php?book_id=".$book->getBook_id()."' class='btn btn-info' style='margin:5px 5px 5px 5px;'>Review</a>";
                     }
                     echo "</div></div>";
                     

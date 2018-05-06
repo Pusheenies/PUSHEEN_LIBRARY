@@ -83,6 +83,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
         
     </head>
     <body>
+    <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
     <div class="container">
             <h1 class="text-center">Edit details: <?=$book->getTitle()?></h1>
             <div class="text-center">

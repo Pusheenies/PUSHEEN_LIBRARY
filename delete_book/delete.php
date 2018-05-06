@@ -45,7 +45,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
 
 <html>
     <head>
-    <title>Pusheen Library - Edit book details</title>
+    <title>Pusheen Library - Delete book</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -54,6 +54,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
         
     </head>
     <body>
+        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
         <div class="container">
             <h1 class="text-center">Delete: <?=$book->getTitle()?></h1>
             <div class="text-center">

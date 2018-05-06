@@ -17,6 +17,10 @@ if (isset($_SESSION["success_edit"])){
     echo $_SESSION["success_edit"];
     unset($_SESSION["success_edit"]);
 }
+if (isset($_SESSION["rating"])){
+    echo $_SESSION["rating"];
+    unset($_SESSION["rating"]);
+}
 //////////////////////////////////////////////
 
 
@@ -47,6 +51,7 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     </head>
     <body>
+        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
         <div class="container">
             <h1 class="text-center">Book search</h1>
             <form action="" method="post" class="col-sm-6 offset-sm-3">
