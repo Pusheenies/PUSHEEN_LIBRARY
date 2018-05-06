@@ -140,6 +140,7 @@ class User_Profile {
 class General_User_Profile extends User_Profile {
     private $borrows;
     private $borrows_data;
+    private $recent_books;
     
     function borrows($pdo) {
         $sql = "SELECT bo.borrow_id, b.title, a.author_name, b.image_url,
@@ -177,6 +178,24 @@ class General_User_Profile extends User_Profile {
         $this->borrows = $result['borrows_count'] ?? 0;
     }
     
+    function set_recent_books($pdo) {
+        $sql = "SELECT b.title, a.author_name, b.image_url, g.genre_name
+                FROM books b
+                JOIN authors_books ab ON ab.book_id = b.book_id 
+                JOIN authors a ON a.author_id = ab.author_id
+                JOIN genres g ON g.genre_id = b.genre_id
+                ORDER BY b.date_added DESC
+                LIMIT 10;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->recent_books[] = $result;
+        }
+    }
+    
     function get_square_top() {
         return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
                     '<ul>' .
@@ -198,14 +217,14 @@ class General_User_Profile extends User_Profile {
                     '</ul>';
     }
     
-    function get_square_bottom($borrows) {
+    function get_square_bottom() {
         $html = '<h2>Your past borrows</h2>' .
                  '<div class=\'row\'>';
         
-        if (!$borrows) {
+        if (!$this->borrows_data) {
             $html .=  '<div class=\'col-sm-12\'>No borrows yet!</div>';
         } else {
-            foreach ($borrows as $borrow) {
+            foreach ($this->borrows_data as $borrow) {
                 $html .= '<div class=\'col-sm-3\'>' .
                             '<img class=\'borrow_img\' src=\'' . $borrow['image_url'] . '\'>' .
                          '</div>';                  
@@ -215,17 +234,42 @@ class General_User_Profile extends User_Profile {
         
         return $html;
     }
-         
-    function get_borrows() {
-        return $this->borrows;
+    
+    function get_column1() {
+        $html = '<h2>Our latest books</h2>' .
+                 '<div class=\'row\'>';
+        
+        foreach ($this->recent_books as $book) {
+            $html .= '<div class=\'col-sm-3\'>' .
+                        '<img class=\'borrow_img\' src=\'' . $book['image_url'] . '\'>' .
+                     '</div>';                  
+        }
+        $html .= '</div>';
+        
+        return $html;
     }
     
-    function get_borrows_data() {
-        return $this->borrows_data;
+    function get_borrows() {
+        return $this->borrows;
     }
 }
 
 class Staff_User_Profile extends User_Profile {
+    private $overdue_borrows;
+    
+    function overdue_borrows($pdo) {
+        $sql = "SELECT distinct b.image_url
+                FROM borrows bo
+                JOIN books b ON b.book_id = bo.book_id 
+                WHERE bo.return_date < CURRENT_TIMESTAMP AND bo.returned_book = 0;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->overdue_borrows[] = $result;
+        }
+    }
+    
     function get_square_top() {
         return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
                     '<ul>' .
@@ -241,6 +285,24 @@ class Staff_User_Profile extends User_Profile {
                             '<a href=\'#\'> Edit</a>' .
                         '</li>' .
                     '</ul>';
+    }
+    
+    function get_square_bottom() {
+        $html = '<h2>Overdue borrows</h2>' .
+                 '<div class=\'row\'>';
+        
+        if (!$this->overdue_borrows) {
+            $html .=  '<div class=\'col-sm-12\'>No overdue borrows!</div>';
+        } else {
+            foreach ($this->overdue_borrows as $borrow) {
+                $html .= '<div class=\'col-sm-3\'>' .
+                            '<img class=\'borrow_img\' src=\'' . $borrow['image_url'] . '\'>' .
+                         '</div>';                  
+            }
+        }
+        $html .= '</div>';
+        
+        return $html;
     }
 }
 
