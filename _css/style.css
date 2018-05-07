@@ -1,0 +1,127 @@
+
+body, html, ul, li {
+    padding: 0;
+    height: 100%;
+    margin: 0;
+    color: grey;
+}
+
+body {
+    margin-top: 20px;
+    background: url(../_img/bg.png) top center no-repeat;
+    background-size:  cover;
+    background-attachment: fixed;
+    background-color: #4C6D7D;
+}
+
+/*Fonts*/
+
+body { font-family: 'Open Sans', sans-serif; }
+.rating, .icon { font-family: "SSPika"; }
+
+.review, .right a { font-size: 12px; line-height: 1; }
+
+h1 { text-align: center; font-weight: bold; }
+
+    /*colours*/
+h1 { color: white; }
+.rating { color: gainsboro; }
+a, a:hover, a:visited { color: #698A99; font-weight: bold; text-decoration: none;}
+.icon { color: white; background-color: #A0B5C0; }
+
+h2 { margin-bottom: 20px; }
+
+#container {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+    padding-top: 10px;
+}
+
+.section {
+    background-color: #F7F7F7;
+    box-shadow: 0 0 15px gray;
+    margin: 3%;
+    width: 44%;
+    float: left;
+    padding: 30px;
+    clear: cle
+}
+
+/*Book Reviews*/
+
+.bookReview { margin-bottom: 40px; position: relative; z-index : 1; }
+.bookReview:before {
+  content : "";
+  position: absolute;
+  left    : 25%;
+  bottom  : -20px;
+  height  : 1px;
+  width   : 50%;
+  border-bottom:1px solid gainsboro;
+}
+
+.bookReview img { width: 40%; height: auto; }
+.right { width: 50%; }
+
+/* For devices larger than 1200px */
+@media (min-width:1200px) {
+    .bookReview img { width: 30%; }
+    .right { width: 60%; }
+}
+
+li {
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+
+#user .button {
+    margin-top: 20px;
+}
+ 
+.icon {
+    padding: 10px 13px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/*Borrows*/
+
+#borrows ul li img { width: 25%; margin: 20px 4.1%; float: left; }
+
+/*Buttons*/
+
+.button {
+    display: block;
+    width: 70%;
+    padding: 10px 30px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #BFD0D8;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+
+/* MOBILE STYLING For devices smaller than 840px */
+
+@media (min-width:840px) {
+
+#container { min-width: 850px; }
+
+}
+
+@media (max-width:840px) {
+#container { width: 100%; }
+.section { width: 80%; margin: 10%; }
+
+}
+
+@media (min-width:440px) {
+.right { float: right; }
+}
+
+@media (max-width:440px) {
+.bookReview img { margin-left: 30%; }
+.right { margin-top: 20px; width: 100%; }
+}
