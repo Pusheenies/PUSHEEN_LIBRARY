@@ -53,11 +53,18 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <link rel="stylesheet" href="../steph/_css/style.css">
+        <link rel="stylesheet" href="../toughBtn.css">
+        <!--Fonts-->
+        <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
+        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a><br>
+        
         <div class="container">
-            <h1 class="text-center">Book search</h1>
+            <h1>Book search</h1>
+            <div class="section" style="width:100%;">
             <form action="" method="post" class="col-sm-6 offset-sm-3">
                 <div class="form-group">
                     <label for="title">Title:</label>
@@ -124,9 +131,10 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
                     <input type="radio" name="book_format" value="Audiobook"> Audiobook<br>
                 </div>
                 <div class="text-center">
-                    <input type="submit" value="Search" class="btn btn-primary"/>
+                    <input type="submit" value="Search" class="button toughBtn"/>
                 </div>
             </form>
+        </div>
         </div>
 
         <!-- Bootstrap JS -->

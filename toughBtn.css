@@ -1,0 +1,14 @@
+.toughBtn {
+    color: #698A99;
+    font-weight: bold;
+    display: block;
+    /* width: 70%; */
+    padding: 10px 30px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #BFD0D8;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    border-color:#BFD0D8;
+}

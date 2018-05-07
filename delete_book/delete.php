@@ -50,36 +50,43 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        
+        <link rel="stylesheet" href="../steph/_css/style.css">
+        <link rel="stylesheet" href="../toughBtn.css">
+        <!--Fonts-->
+        <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
+        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a>
         <div class="container">
             <h1 class="text-center">Delete: <?=$book->getTitle()?></h1>
-            <div class="text-center">
-                <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>">
-            </div>
-            <div class="col-sm-6 offset-sm-3">
-                <p><b>Title: </b><?=$book->getTitle()?></p>
-                <p><b>Author: </b><?=$book->getAuthor_name()?></p>
-                <p><b>ISBN: </b><?=$book->getIsbn()?></p>
-                <p><b>Genre: </b><?=$book->getGenre_id()?></p>
-                <p><b>Format: </b><?=$book->getBook_format()?></p>
-                <p><b>Stock: </b><?=$book->getStock()?></p>      <!-- to delete? -->
-                <p><b>Book condition: </b><?=$book->getBook_condition()?></p>
-                <p><b>Publication year: </b><?=$book->getPublication_year()?></p>
-                <p><b>Book location: </b><?=$book->getBook_location()?></p>
-                <p><b>Date added: </b><?=$book->getDate_added()?></p>
+            <div class="section" style="width:100%;">
+                <div class="text-center">
+                    <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>" style="margin-bottom:20px;">
+                </div>
+                <div class="col-sm-6 offset-sm-3">
+                    <p><b>Title: </b><?=$book->getTitle()?></p>
+                    <p><b>Author: </b><?=$book->getAuthor_name()?></p>
+                    <p><b>ISBN: </b><?=$book->getIsbn()?></p>
+                    <p><b>Genre: </b><?=$book->getGenre_id()?></p>
+                    <p><b>Format: </b><?=$book->getBook_format()?></p>
+                    <p><b>Stock: </b><?=$book->getStock()?></p>      <!-- to delete? -->
+                    <p><b>Book condition: </b><?=$book->getBook_condition()?></p>
+                    <p><b>Publication year: </b><?=$book->getPublication_year()?></p>
+                    <p><b>Book location: </b><?=$book->getBook_location()?></p>
+                    <p><b>Date added: </b><?=$book->getDate_added()?></p>
+                </div>
+                <form action="" method="post" class="col-sm-6 offset-sm-3">
+                    <div class="text-center">
+                        <input type="submit" name="delete" value="Confirm deletion of <?=$book->getTitle()?>" class="btn toughBtn"/>
+                        <br>
+                        <a href="../book_search/search_results.php">Cancel</a>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <form action="" method="post" class="col-sm-6 offset-sm-3">
-            <div class="text-center">
-                <input type="submit" name="delete" value="Confirm deletion of <?=$book->getTitle()?>" class="btn btn-danger"/>
-                <br>
-                <a href="../book_search/search_results.php">Cancel</a>
-            </div>
-        </form>
+
      
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -29,9 +29,13 @@ foreach($results as $book){
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
         <link rel="stylesheet" href="search_results.css">
+        <link rel="stylesheet" href="../steph/_css/style.css">
+        <!--Fonts-->
+        <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
+        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a>
         <div class="container">
         <h1 class="text-center">Your results</h1>
         <div class="flex-container">
@@ -47,15 +51,15 @@ foreach($results as $book){
                     echo "</div>";
                     echo "<div class='card-footer'>";
                     if ($security=="staff" || $security=="admin"){
-                        echo "<a href='../edit_book/edit.php?book_id=".$book->getBook_id()."' class='btn btn-warning' style='margin:5px 5px 5px 5px;'>Edit</a>";
-                        echo "<a href='../delete_book/delete.php?book_id=".$book->getBook_id()."' class='btn btn-danger' style='margin:5px 5px 5px 5px;'>Delete</a>";
+                        echo "<a href='../edit_book/edit.php?book_id=".$book->getBook_id()."' class='button' style='margin-bottom:5px;'>Edit</a>";
+                        echo "<a href='../delete_book/delete.php?book_id=".$book->getBook_id()."' class='button'>Delete</a>";
                     } else {
                         if($book->getStock()>=1){
-                            echo "<a href='../borrow_book/borrow.php?book_id=".$book->getBook_id()."' class='btn btn-primary' style='margin:5px 5px 5px 5px;'>Borrow</a>";
+                            echo "<a href='../borrow_book/borrow.php?book_id=".$book->getBook_id()."' class='button' style='margin-bottom:5px;'>Borrow</a>";
                         } else {
                             echo "Unavailable at the moment.";
                         }
-                        echo "<a href='../leave_rating/rating.php?book_id=".$book->getBook_id()."' class='btn btn-info' style='margin:5px 5px 5px 5px;'>Review</a>";
+                        echo "<a href='../leave_rating/rating.php?book_id=".$book->getBook_id()."' class='button'>Review</a>";
                     }
                     echo "</div></div>";
                     
@@ -66,7 +70,7 @@ foreach($results as $book){
         ?>
         </div>
             <div class="text-center">
-                <a href="book_search.php" class="btn btn-primary search-btn">Search again</a>
+                <a href="book_search.php" class="button" style="margin-top:20px; margin-bottom:40px;">Search again</a>
             </div>
         </div>
         

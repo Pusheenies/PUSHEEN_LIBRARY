@@ -74,109 +74,114 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
 
 <html>
     <head>
-    <title>Pusheen Library - Edit book details</title>
+        <title>Pusheen Library - Edit book details</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        
+        <link rel="stylesheet" href="../steph/_css/style.css">
+        <link rel="stylesheet" href="../toughBtn.css">
+        <!--Fonts-->
+        <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-    <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
-    <div class="container">
+        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a>
+        <div class="container">
             <h1 class="text-center">Edit details: <?=$book->getTitle()?></h1>
-            <div class="text-center">
-                <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>">
-            </div>
-            <form action="" method="post" class="col-sm-6 offset-sm-3">
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" name="title" id="title" class="form-control" value="<?=$book->getTitle()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="author_name">Author:</label>
-                    <input type="text" name="author_name" id="author_name" class="form-control"  value="<?=$book->getAuthor_name()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="isbn">ISBN:</label>
-                    <input type="text" name="isbn" id="isbn" class="form-control"  value="<?=$book->getIsbn()?>"/>
-                </div>
-                <div class="form-group">
-                    <label>Genre:</label>
-                    <select class="form-control" name="genre_id">
-                        <option value="<?=$book->getGenre_id()?>"><?=$book->getGenre_id()?></option>
-                        <option value="4">Action and Adventure</option>
-                        <option value="21">Art</option>
-                        <option value="28">Autobiographies</option>
-                        <option value="27">Biographies</option>
-                        <option value="12">Children's</option>
-                        <option value="20">Comics</option>
-                        <option value="22">Cookbooks</option>
-                        <option value="23">Diaries</option>
-                        <option value="19">Dictionaries</option>
-                        <option value="2">Drama</option>
-                        <option value="18">Encyclopedias</option>
-                        <option value="29">Fantasy</option>
-                        <option value="10">Guide</option>
-                        <option value="9">Health</option>
-                        <option value="15">History</option>
-                        <option value="7">Horror</option>
-                        <option value="24">Journals</option>
-                        <option value="16">Math</option>
-                        <option value="6">Mystery</option>
-                        <option value="11">Novel</option>
-                        <option value="17">Poetry</option>
-                        <option value="25">Prayer books</option>
-                        <option value="13">Religion</option>
-                        <option value="5">Romance</option>
-                        <option value="3">Satire</option>
-                        <option value="14">Science</option>
-                        <option value="1">Science fiction</option>
-                        <option value="8">Self help</option>
-                        <option value="26">Series</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Format:</label><br>
-                    <select class="form-control" name="book_format">
-                        <option value="<?=$book->getBook_format()?>"><?=$book->getBook_format()?></option>
-                        <option value="Book">Book</option>
-                        <option value="Audiobook">Audiobook</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="image_url">Image URL:</label>
-                    <input type="text" name="image_url" id="image_url" class="form-control"  value="<?=$book->getImage_url()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="stock">Stock:</label>
-                    <input type="text" name="stock" id="stock" class="form-control"  value="<?=$book->getStock()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="book_condition">Book condition:</label>
-                    <input type="text" name="book_condition" id="book_condition" class="form-control"  value="<?=$book->getBook_condition()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="publication_year">Publication year:</label>
-                    <input type="text" name="publication_year" id="publication_year" class="form-control"  value="<?=$book->getPublication_year()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="book_location">Book location:</label>
-                    <input type="text" name="book_location" id="book_location" class="form-control"  value="<?=$book->getBook_location()?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="date_added">Date added:</label>
-                    <input type="text" name="date_added" id="date_added" class="form-control"  value="<?=$book->getDate_added()?>"/>
-                </div>
-
-
+            <div class="section" style="width:100%;">
                 <div class="text-center">
-                    <input type="submit" value="Edit details" class="btn btn-warning"/>
-                    <br>
-                    <a href="../book_search/search_results.php">Cancel</a>
+                    <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>" style="margin-bottom:20px;">
                 </div>
-            </form>
+                <form action="" method="post" class="col-sm-6 offset-sm-3">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" id="title" class="form-control" value="<?=$book->getTitle()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="author_name">Author:</label>
+                        <input type="text" name="author_name" id="author_name" class="form-control"  value="<?=$book->getAuthor_name()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" name="isbn" id="isbn" class="form-control"  value="<?=$book->getIsbn()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Genre:</label>
+                        <select class="form-control" name="genre_id">
+                            <option value="<?=$book->getGenre_id()?>"><?=$book->getGenre_id()?></option>
+                            <option value="4">Action and Adventure</option>
+                            <option value="21">Art</option>
+                            <option value="28">Autobiographies</option>
+                            <option value="27">Biographies</option>
+                            <option value="12">Children's</option>
+                            <option value="20">Comics</option>
+                            <option value="22">Cookbooks</option>
+                            <option value="23">Diaries</option>
+                            <option value="19">Dictionaries</option>
+                            <option value="2">Drama</option>
+                            <option value="18">Encyclopedias</option>
+                            <option value="29">Fantasy</option>
+                            <option value="10">Guide</option>
+                            <option value="9">Health</option>
+                            <option value="15">History</option>
+                            <option value="7">Horror</option>
+                            <option value="24">Journals</option>
+                            <option value="16">Math</option>
+                            <option value="6">Mystery</option>
+                            <option value="11">Novel</option>
+                            <option value="17">Poetry</option>
+                            <option value="25">Prayer books</option>
+                            <option value="13">Religion</option>
+                            <option value="5">Romance</option>
+                            <option value="3">Satire</option>
+                            <option value="14">Science</option>
+                            <option value="1">Science fiction</option>
+                            <option value="8">Self help</option>
+                            <option value="26">Series</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Format:</label><br>
+                        <select class="form-control" name="book_format">
+                            <option value="<?=$book->getBook_format()?>"><?=$book->getBook_format()?></option>
+                            <option value="Book">Book</option>
+                            <option value="Audiobook">Audiobook</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_url">Image URL:</label>
+                        <input type="text" name="image_url" id="image_url" class="form-control"  value="<?=$book->getImage_url()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">Stock:</label>
+                        <input type="text" name="stock" id="stock" class="form-control"  value="<?=$book->getStock()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="book_condition">Book condition:</label>
+                        <input type="text" name="book_condition" id="book_condition" class="form-control"  value="<?=$book->getBook_condition()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="publication_year">Publication year:</label>
+                        <input type="text" name="publication_year" id="publication_year" class="form-control"  value="<?=$book->getPublication_year()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="book_location">Book location:</label>
+                        <input type="text" name="book_location" id="book_location" class="form-control"  value="<?=$book->getBook_location()?>"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_added">Date added:</label>
+                        <input type="text" name="date_added" id="date_added" class="form-control"  value="<?=$book->getDate_added()?>"/>
+                    </div>
+
+                    <div class="text-center">
+                        <input type="submit" value="Confirm update of <?=$book->getTitle()?>" class="btn toughBtn"/>
+                        <br>
+                        <a href="../book_search/search_results.php">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
         
         <!-- Bootstrap JS -->

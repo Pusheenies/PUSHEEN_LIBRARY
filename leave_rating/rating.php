@@ -74,45 +74,52 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
     <title>Pusheen Library - Leave a rating</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="rating.css">
+        <link rel="stylesheet" href="../steph/_css/style.css">
+        <link rel="stylesheet" href="../toughBtn.css">
+        <!--Fonts-->
+        <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
+        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a>
         <div class="container">
-            <h1 class="text-center">Leave a rating: <?=$book->getTitle()?></h1>
-            <div class="text-center">
-                <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>">
+            <h1>Leave a rating: <?=$book->getTitle()?></h1>
+            <div class="section" style="width:100%;">
+                <div class="text-center">
+                    <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>" style="margin-bottom:20px;">
+                </div>
+                <div class="col-sm-6 offset-sm-3">
+                    <p><b>Title: </b><?=$book->getTitle()?></p>
+                    <p><b>Author: </b><?=$book->getAuthor_name()?></p>
+                    <p><b>ISBN: </b><?=$book->getIsbn()?></p>
+                    <p><b>Format: </b><?=$book->getBook_format()?></p>
+                    <p><b>Publication year: </b><?=$book->getPublication_year()?></p>
+                </div>
+    
+                <form action="" method="post" class="col-sm-6 offset-sm-3">
+                    <div class="form-group">
+                        <p><b>Rating: </b>
+                        <input type="hidden" name="rating" value="">
+                        <input type="radio" name="rating" value="1" class="rating" style="margin-left:20px;"> 1
+                        <input type="radio" name="rating" value="2" class="rating" style="margin-left:20px;"> 2
+                        <input type="radio" name="rating" value="3" class="rating" style="margin-left:20px;"> 3
+                        <input type="radio" name="rating" value="4" class="rating" style="margin-left:20px;"> 4
+                        <input type="radio" name="rating" value="5" class="rating" style="margin-left:20px;"> 5
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" name="confirm_rating" value="Confirm rating of <?=$book->getTitle()?>"  class="btn toughBtn"/>
+                        <br>
+                        <a href="../book_search/search_results.php">Cancel</a>
+                    </div>
+                </form>
             </div>
-            <div class="col-sm-6 offset-sm-3">
-                <p><b>Title: </b><?=$book->getTitle()?></p>
-                <p><b>Author: </b><?=$book->getAuthor_name()?></p>
-                <p><b>ISBN: </b><?=$book->getIsbn()?></p>
-                <p><b>Format: </b><?=$book->getBook_format()?></p>
-                <p><b>Publication year: </b><?=$book->getPublication_year()?></p>
-            </div>
-        
-
-        <form action="" method="post" class="col-sm-6 offset-sm-3">
-            <div class="form-group">
-                <p><b>Rating: </b>
-                <input type="hidden" name="rating" value="">
-                <input type="radio" name="rating" value="1" class="rating"> 1
-                <input type="radio" name="rating" value="2" class="rating"> 2
-                <input type="radio" name="rating" value="3" class="rating"> 3
-                <input type="radio" name="rating" value="4" class="rating"> 4
-                <input type="radio" name="rating" value="5" class="rating"> 5
-                </p>
-            </div>
-            <div class="text-center">
-                <input type="submit" name="confirm_rating" value="Confirm rating of <?=$book->getTitle()?>" class="btn btn-info"/>
-                <br>
-                <a href="../book_search/search_results.php">Cancel</a>
-            </div>
-        </form>
         </div>
+
+        
      
         <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -3,13 +3,10 @@
     flex-wrap: wrap;
 }
 .flex-container > div {
-    width: 250px;
+    width: 300px;
     margin: 10px;
     text-align: center;
 }
 .flex-container img {
     margin-bottom:10px;
-}
-.search-btn {
-    margin-top:50px;
 }
