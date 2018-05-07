@@ -193,8 +193,6 @@ class General_User_Profile extends User_Profile {
         $statement = $pdo->prepare($sql);
         $statement->execute();
         
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        
         while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
             $this->recent_books[] = $result;
         }
@@ -307,126 +305,93 @@ class Staff_User_Profile extends User_Profile {
 
 class Book {
     private $book_id;
-    private $date_added;
-    private $title;
     private $isbn;
-    private $authors;
-    private $genre;
+    private $title;
     private $image_url;
+    private $genre_id;
     private $book_format;
     private $stock;
     private $book_condition;
     private $publication_year;
     private $book_location;
-    private $is_new_release;
-
-    function __construct($book_id, $date_added, $title, $isbn, $authors, $genre, $image_url, $book_format,
-            $stock, $book_condition, $publication_year, $book_location, $is_new_release) {
+    private $date_added;
+    private $author_id;
+    private $author_name;
+   
+    function __construct($book_id, $isbn, $title, $image_url, $genre_id, $book_format, $stock, $book_condition, $publication_year, $book_location, $date_added, $author_id, $author_name) {
         $this->book_id = $book_id;
-        $this->date_added = $date_added;
-        $this->title = $title;
         $this->isbn = $isbn;
-        $this->authors = $authors;
-        $this->genre = $genre;
+        $this->title = $title;
         $this->image_url = $image_url;
+        $this->genre_id = $genre_id;
         $this->book_format = $book_format;
         $this->stock = $stock;
         $this->book_condition = $book_condition;
         $this->publication_year = $publication_year;
         $this->book_location = $book_location;
-        $this->is_new_release = $is_new_release;
+        $this->date_added = $date_added;
+        $this->author_id = $author_id;
+        $this->author_name = $author_name;
     }
-
-    public function get_title() {
-        return $this->title;
+    
+    function add_book($pdo) {
+        $sql = "CALL add_book_and_author(:isbn, :title, :author, :image_url, :genre_id, 
+                :book_format, :stock, :book_condition, :publication_year, :book_location);";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'isbn' => $this->isbn,
+            'title' => $this->title,
+            'author' => $this->author_name,
+            'image_url' => $this->image_url,
+            'genre_id' => $this->genre_id,
+            'book_format' => $this->book_format,
+            'stock' => $this->stock,
+            'book_condition' => $this->book_condition,
+            'publication_year' => $this->publication_year,
+            'book_location' => $this->book_location
+        ]);
+        
+        echo $result;
     }
-
-    public function get_isbn() {
+    
+    function getBook_id() {
+        return $this->book_id;
+    }
+    function getIsbn() {
         return $this->isbn;
     }
-
-    public function get_authors() {
-        return $this->authors;
+    function getTitle() {
+        return $this->title;
     }
-
-    public function get_genre() {
-        return $this->genre;
-    }
-
-    public function get_image_url() {
+    function getImage_url() {
         return $this->image_url;
     }
-
-    public function get_book_format() {
+    function getGenre_id() {
+        return $this->genre_id;
+    }
+    function getBook_format() {
         return $this->book_format;
     }
-
-    public function get_stock() {
+    function getStock() {
         return $this->stock;
     }
-
-    public function get_book_condition() {
+    function getBook_condition() {
         return $this->book_condition;
     }
-
-    public function get_publication_year() {
+    function getPublication_year() {
         return $this->publication_year;
     }
-
-    public function get_book_location() {
+    function getBook_location() {
         return $this->book_location;
     }
-
-    public function get_is_new_release() {
-        return $this->is_new_release;
+    function getDate_added() {
+        return $this->date_added;
     }
-
-    public function set_title($title) {
-        $this->title = $title;
+    function getAuthor_id() {
+        return $this->author_id;
     }
-
-    public function set_isbn($isbn) {
-        $this->isbn = $isbn;
-    }
-
-    public function set_authors($authors) {
-        $this->authors = $authors;
-    }
-
-    public function set_genre($genre) {
-        $this->genre = $genre;
-    }
-
-    public function set_image_url($image_url) {
-        $this->image_url = $image_url;
-    }
-
-    public function set_book_format($book_format) {
-        $this->book_format = $book_format;
-    }
-
-    public function set_stock($stock) {
-        $this->stock = $stock;
-    }
-
-    public function set_book_condition($book_condition) {
-        $this->book_condition = $book_condition;
-    }
-
-    public function set_publication_year($publication_year) {
-        $this->publication_year = $publication_year;
-    }
-
-    public function set_book_location($book_location) {
-        $this->book_location = $book_location;
-    }
-
-    public function set_is_new_release($is_new_release) {
-        $this->is_new_release = $is_new_release;
-    }
-
-    public function decrease_stock() {
-        $this->stock -= 1;
+    function getAuthor_name() {
+        return $this->author_name;
     }
 }
 
@@ -708,109 +673,6 @@ class Borrow {
         $this->returned_book = $returned_book;
     }
 }
-
-class Book2 {
-    var $book_id;
-    var $ISBN;
-    var $title;
-    var $image_url;
-    var $genre_id;
-    var $book_format;
-    var $stock;
-    var $book_condition;
-    var $publication_year;
-    var $book_location;
-    var $date_added;
-
-    function __construct($book_id, $ISBN, $title, $image_url, $genre_id, $book_format, $stock, $book_condition, $publication_year, $book_location, $date_added) {
-        $this->book_id = $book_id;
-        $this->ISBN = $ISBN;
-        $this->title = $title;
-        $this->image_url = $image_url;
-        $this->genre_id = $genre_id;
-        $this->book_format = $book_format;
-        $this->stock = $stock;
-        $this->book_condition = $book_condition;
-        $this->publication_year = $publication_year;
-        $this->book_location = $book_location;
-        $this->date_added = $date_added;
-    }
-
-    //getters
-    function get_book_id() {
-        return $this->book_id;
-    }
-    function get_ISBN() {
-        return $this->ISBN;
-    }
-    function get_title() {
-        return $this->title;
-    }
-    function get_image_url() {
-        return $this->image_url;
-    }
-    function get_genre_id() {
-        return $this->genre_id;
-    }
-    function get_book_format() {
-        return $this->book_format;
-    }
-    function get_stock() {
-        return $this->stock;
-    }
-    function get_book_condition() {
-        return $this->book_condition;
-    }
-    function get_publication_year() {
-        return $this->publication_year;
-    }
-    function get_book_location() {
-        return $this->book_location;
-    }
-    function get_date_added() {
-        return $this->date_added;
-    }
-
-    //setters
-    function set_book_id($book_id) {
-        $this->book_id = $book_id;
-    }
-    function set_ISBN($ISBN) {
-        $this->ISBN = $ISBN;
-    }
-    function set_title($title) {
-        $this->title = $title;
-    }
-    function set_image_url($image_url) {
-        $this->image_url = $image_url;
-    }
-    function set_genre_id($genre_id) {
-        $this->genre_id = $genre_id;
-    }
-    function set_book_format($book_format) {
-        $this->book_format = $book_format;
-    }
-    function set_stock($stock) {
-        $this->stock = $stock;
-    }
-    function set_book_condition($book_condition) {
-        $this->book_condition = $book_condition;
-    }
-    function set_publication_year($publication_year) {
-        $this->publication_year = $publication_year;
-    }
-    function set_book_location($book_location) {
-        $this->book_location = $book_location;
-    }
-
-    //not sure we need this setter: would we change the date?
-    //function set_date_added($date_added) {
-        //$this->date_added = $date_added;
-    //}
-}
-
-
-
 
 class User2 {
     var $user_id;

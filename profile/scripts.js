@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $.post("profile.php").done(function (response) {
-        console.log(response);
         if (response) {
             let html = JSON.parse(response);
             let keys = Object.keys(html);
