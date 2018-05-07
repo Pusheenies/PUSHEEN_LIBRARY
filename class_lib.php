@@ -76,6 +76,10 @@ class User_Profile {
         }
     }
     
+    function get_title() {
+        return 'Welcome back ' . $this->get_forename();
+    }
+    
     function get_id() {
         return $this->id;
     }
@@ -185,7 +189,7 @@ class General_User_Profile extends User_Profile {
                 JOIN authors a ON a.author_id = ab.author_id
                 JOIN genres g ON g.genre_id = b.genre_id
                 ORDER BY b.date_added DESC
-                LIMIT 10;";
+                LIMIT 7;";
         $statement = $pdo->prepare($sql);
         $statement->execute();
         
@@ -195,39 +199,35 @@ class General_User_Profile extends User_Profile {
             $this->recent_books[] = $result;
         }
     }
-    
-    function get_square_top() {
-        return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
-                    '<ul>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Username: ' . $this->get_username() .
-                        '</li>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Password: *************' .
-                            '<a href=\'#\'> Edit</a>' .
-                        '</li>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Email: ' . $this->get_email() .
-                            '<a href=\'#\'> Edit</a>' .
-                        '</li>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Borrows: '. $this->get_borrows() .
-                            '<a href=\'#\'> Info</a>' .
-                        '</li>' .
-                    '</ul>';
+
+    function get_personal_details_html() {
+        return  '<li><span class=\'icon\'>&#x1F464;</span>' .
+                    'Username: ' . $this->get_username() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x2709;</span>' .
+                    'Email: ' . $this->get_email() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F511;</span>' .
+                    'Password: *************' .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F4D6;</span>' .
+                    'Borrows: '. $this->get_borrows() .
+                    '<a href=\'#\'> ...more</a>' .
+                '</li>' . 
+                '<a href=\'#\' class=\'button\'>Edit</a>';
     }
     
-    function get_square_bottom() {
-        $html = '<h2>Your past borrows</h2>' .
-                 '<div class=\'row\'>';
+    function get_past_borrows_html() {
+        $html = '<h2>Your Past Borrows</h2>' .
+                 '<ul>';
         
         if (!$this->borrows_data) {
-            $html .=  '<div class=\'col-sm-12\'>No borrows yet!</div>';
+            $html .=  '<p>No borrows yet!</p>';
         } else {
             foreach ($this->borrows_data as $borrow) {
-                $html .= '<div class=\'col-sm-3\'>' .
-                            '<img class=\'borrow_img\' src=\'' . $borrow['image_url'] . '\'>' .
-                         '</div>';                  
+                $html .= '<ul>' .
+                            '<li><img src=\'' . $borrow['image_url'] . '\'></li>' .
+                         '</ul>';                  
             }
         }
         $html .= '</div>';
@@ -235,16 +235,19 @@ class General_User_Profile extends User_Profile {
         return $html;
     }
     
-    function get_column1() {
-        $html = '<h2>Our latest books</h2>' .
-                 '<div class=\'row\'>';
+    function get_recent_books_html() {
+        $html = '<h2>Our latest books</h2>';
         
         foreach ($this->recent_books as $book) {
-            $html .= '<div class=\'col-sm-3\'>' .
-                        '<img class=\'borrow_img\' src=\'' . $book['image_url'] . '\'>' .
+            $html .= '<div class=\'bookReview\'>' . 
+                        '<img src=\'' . $book['image_url'] . '\'>' .
+                        '<div class=\'right\'>' .
+                            '<span class=\'rating\'>&#x22C6; &#x22C6; &#x22C6; &#x22C6;</span><br/>' .
+                            '<span class=\'review\' >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span><a href=\'#\'> ...more</a>' .
+                        '</div>' .
                      '</div>';                  
         }
-        $html .= '</div>';
+        $html .= '<a href=\'#\' class=\'button\'>More Books</a>' . '</div>';
         
         return $html;
     }
@@ -270,34 +273,30 @@ class Staff_User_Profile extends User_Profile {
         }
     }
     
-    function get_square_top() {
-        return '<h2>Welcome ' . $this->get_forename() . '</h2>' .
-                    '<ul>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Username: ' . $this->get_username() .
-                        '</li>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Password: *************' .
-                            '<a href=\'#\'> Edit</a>' .
-                        '</li>' .
-                        '<li><span class=\'icon\'>&#xF410;</span>' .
-                            'Email: ' . $this->get_email() .
-                            '<a href=\'#\'> Edit</a>' .
-                        '</li>' .
-                    '</ul>';
+    function get_personal_details_html() {
+        return  '<li><span class=\'icon\'>&#x1F464;</span>' .
+                    'Username: ' . $this->get_username() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x2709;</span>' .
+                    'Email: ' . $this->get_email() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F511;</span>' .
+                    'Password: *************' .
+                '</li>' .
+                '<a href=\'#\' class=\'button\'>Edit</a>';
     }
     
-    function get_square_bottom() {
-        $html = '<h2>Overdue borrows</h2>' .
-                 '<div class=\'row\'>';
+    function get_overdue_borrows_html() {
+        $html = '<h2>Overdue Borrows</h2>' .
+                 '<ul>';
         
         if (!$this->overdue_borrows) {
-            $html .=  '<div class=\'col-sm-12\'>No overdue borrows!</div>';
+            $html .=  '<p>No overdue books</p>';
         } else {
             foreach ($this->overdue_borrows as $borrow) {
-                $html .= '<div class=\'col-sm-3\'>' .
-                            '<img class=\'borrow_img\' src=\'' . $borrow['image_url'] . '\'>' .
-                         '</div>';                  
+                $html .= '<ul>' .
+                            '<li><img src=\'' . $borrow['image_url'] . '\'></li>' .
+                         '</ul>';                  
             }
         }
         $html .= '</div>';
