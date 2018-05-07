@@ -183,13 +183,15 @@ class General_User_Profile extends User_Profile {
     }
     
     function set_recent_books($pdo) {
-        $sql = "SELECT b.title, a.author_name, b.image_url, g.genre_name
+        $sql = "SELECT b.title, a.author_name, b.image_url, g.genre_name, avg(r.rating) rating
                 FROM books b
                 JOIN authors_books ab ON ab.book_id = b.book_id 
                 JOIN authors a ON a.author_id = ab.author_id
                 JOIN genres g ON g.genre_id = b.genre_id
+                LEFT JOIN ratings r ON r.book_id = b.book_id
+                GROUP BY b.book_id
                 ORDER BY b.date_added DESC
-                LIMIT 7;";
+                LIMIT 5;";
         $statement = $pdo->prepare($sql);
         $statement->execute();
         
@@ -240,11 +242,22 @@ class General_User_Profile extends User_Profile {
             $html .= '<div class=\'bookReview\'>' . 
                         '<img src=\'' . $book['image_url'] . '\'>' .
                         '<div class=\'right\'>' .
-                            '<span class=\'rating\'>&#x22C6; &#x22C6; &#x22C6; &#x22C6;</span><br/>' .
-                            '<span class=\'review\' >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span><a href=\'#\'> ...more</a>' .
+                            '<span class=\'rating\'>';
+            
+            for ($i = 0; $i < $book['rating']; $i++) {
+                $html .= '&#x22C6;';
+            }
+            
+            $html .=            '</span><br/>' .
+                            '<span class=\'review\'>' .
+                                '<strong>Title: </strong>' . $book['title'] . '<br/>' . 
+                                '<strong>Author: </strong>' . $book['author_name'] . '<br/>' .
+                                '<strong>Genre: </strong>' . $book['genre_name'] . '<br/>' .
+                            '</span>' .
                         '</div>' .
                      '</div>';                  
         }
+        // TODO: link to book search
         $html .= '<a href=\'#\' class=\'button\'>More Books</a>' . '</div>';
         
         return $html;
