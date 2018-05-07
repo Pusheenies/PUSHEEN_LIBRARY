@@ -21,6 +21,10 @@ if (isset($_SESSION["rating"])){
     echo $_SESSION["rating"];
     unset($_SESSION["rating"]);
 }
+if (isset($_SESSION["success_borrow"])){
+    echo $_SESSION["success_borrow"];
+    unset($_SESSION["success_borrow"]);
+}
 //////////////////////////////////////////////
 
 

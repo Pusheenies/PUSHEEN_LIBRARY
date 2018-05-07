@@ -7,22 +7,16 @@ if (!isset($_SESSION["id"])){
     return;
 }
 
-//if not staff, redirect to login
-if ($_SESSION["security"]==="user"){
-    header("Location: ../login/index.html");
-    return;
-}
-
 include "../pdo_php.php";
 include "../class_book.php";
 
-if(isset($_REQUEST["delete"]) && isset($_REQUEST["book_id"])){
-    $sql="CALL deleteBook(:bookid)";
+if(isset($_REQUEST["borrow"]) && isset($_REQUEST["book_id"])){
+    $sql="INSERT INTO borrows (book_id, user_id) VALUES (:book_id, :user_id)";
     $stmt= $pdo->prepare($sql);
-    $stmt->execute(array(":bookid" => $_REQUEST["book_id"]));
-    
+    $stmt->execute(array(":user_id" => $_SESSION["id"], ":book_id" => $_REQUEST["book_id"]));
+
     //RETURN TO DASHBOARD instead?
-    $_SESSION["success_delete"]= "Deletion successful.";
+    $_SESSION["success_borrow"]= "Book successfully borrowed.";
     header("Location: ../book_search/book_search.php");
     return;
 }
@@ -44,7 +38,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
 
 <html>
     <head>
-    <title>Pusheen Library - Delete book</title>
+    <title>Pusheen Library - Borrow</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -55,7 +49,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
     <body>
         <a href="../logout/logout.php" class="btn btn-secondary">Logout</a>
         <div class="container">
-            <h1 class="text-center">Delete: <?=$book->getTitle()?></h1>
+            <h1 class="text-center">Borrow <?=$book->getTitle()?></h1>
             <div class="text-center">
                 <img src="<?=$book->getImage_url()?>" alt="<?=$book->getTitle()?>">
             </div>
@@ -75,7 +69,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
 
         <form action="" method="post" class="col-sm-6 offset-sm-3">
             <div class="text-center">
-                <input type="submit" name="delete" value="Confirm deletion of <?=$book->getTitle()?>" class="btn btn-danger"/>
+                <input type="submit" name="borrow" value="Borrow <?=$book->getTitle()?>" class="btn btn-primary"/>
                 <br>
                 <a href="../book_search/search_results.php">Cancel</a>
             </div>

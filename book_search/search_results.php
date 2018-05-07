@@ -51,7 +51,7 @@ foreach($results as $book){
                         echo "<a href='../delete_book/delete.php?book_id=".$book->getBook_id()."' class='btn btn-danger' style='margin:5px 5px 5px 5px;'>Delete</a>";
                     } else {
                         if($book->getStock()>=1){
-                            echo "<a href='#' class='btn btn-primary' style='margin:5px 5px 5px 5px;'>Borrow</a>";
+                            echo "<a href='../borrow_book/borrow.php?book_id=".$book->getBook_id()."' class='btn btn-primary' style='margin:5px 5px 5px 5px;'>Borrow</a>";
                         } else {
                             echo "Unavailable at the moment.";
                         }
