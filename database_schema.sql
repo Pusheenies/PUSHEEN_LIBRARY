@@ -226,3 +226,14 @@ BEGIN
     EPREFERENCE, PPREFERENCE);
 END $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteBook`(IN `bookid` INT)
+    NO SQL
+BEGIN
+DELETE FROM authors_books WHERE book_id = bookid;
+DELETE FROM ratings WHERE book_id = bookid;
+DELETE FROM borrows WHERE book_id = bookid;
+DELETE FROM books WHERE book_id = bookid;
+END$$
+DELIMITER ;
