@@ -181,7 +181,7 @@ BEGIN
   (author);
 
   SET @author_id = (SELECT author_id FROM authors WHERE author_name = author LIMIT 1);
-  SET @book_id = (SELECT DISTINCT book_id FROM books WHERE isbn = isbn LIMIT 1);
+  SET @book_id = (SELECT DISTINCT book_id FROM books WHERE `books`.`isbn` = isbn LIMIT 1);
   
   INSERT INTO authors_books
   (author_id, book_id)
@@ -236,4 +236,19 @@ DELETE FROM ratings WHERE book_id = bookid;
 DELETE FROM borrows WHERE book_id = bookid;
 DELETE FROM books WHERE book_id = bookid;
 END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE return_book (borrow_id INTEGER)
+BEGIN
+  UPDATE borrows
+  SET returned_book = 1
+  WHERE `borrows`.`borrow_id` = borrow_id;
+  
+  UPDATE borrows
+  SET returned_in_time = 1
+  WHERE `borrows`.`borrow_id` = borrow_id
+  AND return_date > CURRENT_TIMESTAMP;
+END $$
 DELIMITER ;
