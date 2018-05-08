@@ -181,7 +181,7 @@ BEGIN
   (author);
 
   SET @author_id = (SELECT author_id FROM authors WHERE author_name = author LIMIT 1);
-  SET @book_id = (SELECT DISTINCT book_id FROM books WHERE isbn = isbn LIMIT 1);
+  SET @book_id = (SELECT DISTINCT book_id FROM books WHERE `books`.`isbn` = isbn LIMIT 1);
   
   INSERT INTO authors_books
   (author_id, book_id)
