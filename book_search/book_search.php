@@ -7,30 +7,28 @@ if (!isset($_SESSION["id"])){
     return;
 }
 
-//////to put into dashboard page instead///////
+//////notifications///////
 if (isset($_SESSION["success_delete"])){
-    echo $_SESSION["success_delete"];
+    echo "<p style='color:white;'>" . $_SESSION["success_delete"] . "</p>";
     unset($_SESSION["success_delete"]);
 
 }
 if (isset($_SESSION["success_edit"])){
-    echo $_SESSION["success_edit"];
+    echo "<p style='color:white;'>" . $_SESSION["success_edit"] . "</p>";
     unset($_SESSION["success_edit"]);
 }
 if (isset($_SESSION["rating"])){
-    echo $_SESSION["rating"];
+    echo "<p style='color:white;'>" . $_SESSION["rating"] . "</p>";
     unset($_SESSION["rating"]);
 }
 if (isset($_SESSION["success_borrow"])){
-    echo $_SESSION["success_borrow"];
+    echo "<p style='color:white;'>" . $_SESSION["success_borrow"] . "</p>";
     unset($_SESSION["success_borrow"]);
 }
-//////////////////////////////////////////////
-
+////////////////////////////
 
 include "../pdo_php.php";
-include "../class_search.php";
-
+include "../class_lib.php";
 
 //creating a new Search instance if one of the fields is not empty
 if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUEST["isbn"]) ||
@@ -47,20 +45,34 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
 
 <html>
     <head>
-        <title>Pusheen Library - Book search</title>
+        <title>Pusheen Library - Search books</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="../steph/_css/style.css">
-        <link rel="stylesheet" href="../toughBtn.css">
+        <link rel="stylesheet" href="../_css/style.css">
+        <link rel="stylesheet" href="../_css/toughBtn.css">
         <!--Fonts-->
         <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a><br>
+        <nav class="navbar navbar-expand navbar-dark" style="height:70px;"> 
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../profile/index.html">Profile</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout/logout.php">Logout</a>
+                </li>
+              </ul>
+        </nav>
         
         <div class="container">
             <h1>Book search</h1>
