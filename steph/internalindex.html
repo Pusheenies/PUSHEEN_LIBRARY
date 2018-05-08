@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pusheen Library</title>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--StyleSheets-->
+    <link rel="stylesheet" type="text/css" href="_css/style.css" />
+    <!--Fonts-->
+    <link rel="stylesheet" type="text/css" href="_css/ss-pika.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+<div id="container">
+
+<h1>Welcome Back Sophie</h1>
+
+<!--REVIEWS-->
+<div id="newBooks" class="section">
+    <h2>Our latest books</h2>
+    <div class="bookReview">
+        <img src="_img/books/princessDiaries1.jpeg">
+        <div class="right">
+            <span class="rating">&#x22C6; &#x22C6; &#x22C6; &#x22C6;</span><br />
+            <span class="review" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><a href="#"> ...more</a>
+        </div>
+    </div>
+    <div class="bookReview">
+        <img src="_img/books/faultStars.jpeg">
+        <div class="right">
+            <span class="rating">&#x22C6; &#x22C6; &#x22C6;&#xE1A1;</span><br />
+            <span class="review" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><a href="#"> ...more</a>
+        </div>
+    </div>
+    <div class="bookReview">
+        <img src="_img/books/twilight.jpg">
+        <div class="right">
+            <span class="rating">&#x22C6; &#x22C6; &#x22C6; &#x22C6;&#xE1A1;</span><br />
+            <span class="review" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><a href="#"> ...more</a>
+        </div>
+    </div>
+    <div class="bookReview">
+        <img src="_img/books/princessDiaries2.jpg">
+        <div class="right">
+            <span class="rating">&#x22C6; &#x22C6; &#x22C6; &#x22C6;</span><br />
+            <span class="review" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><a href="#"> ...more</a>
+        </div>
+    </div>
+    <a href="#" class="button">More Books</a>
+</div>
+
+
+
+    
+    <div id="user" class="section">
+        <h2>Your Details</h2>
+        <ul>
+            <li><span class="icon">&#x1F464;</span>User: Sophie Turner</li>
+            <li><span class="icon">&#x2709;</span>Email: sophie.turner@example.com</li>
+            <li><span class="icon">&#x1F511;</span>Password: *************7</li>
+            <li><span class="icon">&#x1F4D6;</span>Borrows: 3</li>
+            <li><span class="icon">&#xE962;</span>Fav Genres: Horror, Romance</li>
+            <a href="#" class="button">Edit</a>
+        </ul>
+    </div>
+    <div id="borrows" class="section">
+        <h2>Your Past Borrows</h2>
+        <ul>
+            <li><img src="_img/books/princessDiaries3.jpg"></li>
+            <li><img src="_img/books/greatGatsby.jpeg"></li>
+            <li><img src="_img/books/princessDiaries5.jpeg"></li>
+        </ul>
+        <ul>
+            <li><img src="_img/books/eclipse.jpg"></li>
+            <li><img src="_img/books/princessDiaries4.jpg"></li>
+            <li><img src="_img/books/princessDiaries6.jpg"></li>
+        </ul>
+        <ul>
+            <li><img src="_img/books/princessDiaries7.jpg"></li>
+            <li><img src="_img/books/newMoon.jpg"></li>
+        </ul>
+    </div>
+</div>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        var myDiv = $('.review');
+myDiv.text(myDiv.text().substring(0,150))
+    </script>
+</body>
+</html>

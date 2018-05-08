@@ -1,9 +1,7 @@
 <?php
-
 class User_Login {
     private $username;
     private $text_password;
-
     function __construct($username, $text_password) {
         $this->username = $username;
         $this->text_password = $text_password;
@@ -23,14 +21,12 @@ class User_Login {
             session_start();        
             $_SESSION["id"] = $result['user_id'];
             $_SESSION["security"] = $result['security_group'];
-
             echo "Login Successful";
         } else {
             echo "Login Unsuccessful";
         }
     }
 }
-
 class User_Profile {
     protected $id;
     private $username;
@@ -47,14 +43,12 @@ class User_Profile {
     private $email;
     private $email_contact_pref;
     private $phone_contact_pref;
-
     function __construct($id, $security, $pdo) {
         $this->id = $id;
         $this->security = $security;
         
         $this->set_details($pdo);
     }
-
     private function set_details($pdo) {
         $sql = "SELECT u.username, ud.forename, ud.surname, 
                 ud.address_line1, ud.address_line2, ud.address_line3, ud.city, ud.postcode, 
@@ -83,64 +77,49 @@ class User_Profile {
     function get_id() {
         return $this->id;
     }
-
     function get_username() {
         return $this->username;
     }
-
     function get_forename() {
         return $this->forename;
     }
-
     function get_surname() {
         return $this->surname;
     }
-
     function get_security() {
         return $this->security;
     }
-
     function get_genres() {
         return $this->genres;
     }
-
     function get_address_line1() {
         return $this->address_line1;
     }
-
     function get_address_line2() {
         return $this->address_line2;
     }
-
     function get_address_line3() {
         return $this->address_line3;
     }
-
     function get_city() {
         return $this->city;
     }
-
     function get_postcode() {
         return $this->postcode;
     }
-
     function get_phone() {
         return $this->phone;
     }
-
     function get_email() {
         return $this->email;
     }
-
     function get_email_contact_pref() {
         return $this->email_contact_pref;
     }
-
     function get_phone_contact_pref() {
         return $this->phone_contact_pref;
     }
 }
-
 class General_User_Profile extends User_Profile {
     private $borrows;
     private $borrows_data;
@@ -199,7 +178,6 @@ class General_User_Profile extends User_Profile {
             $this->recent_books[] = $result;
         }
     }
-
     function get_personal_details_html() {
         return  '<li><span class=\'icon\'>&#x1F464;</span>' .
                     'Username: ' . $this->get_username() .
@@ -267,7 +245,6 @@ class General_User_Profile extends User_Profile {
         return $this->borrows;
     }
 }
-
 class Staff_User_Profile extends User_Profile {
     private $overdue_borrows;
     
@@ -315,7 +292,6 @@ class Staff_User_Profile extends User_Profile {
         return $html;
     }
 }
-
 class Book {
     private $book_id;
     private $isbn;
@@ -407,7 +383,6 @@ class Book {
         return $this->author_name;
     }
 }
-
 class User {
     private $user_id;
     private $username;
@@ -427,7 +402,6 @@ class User {
     private $email;
     private $email_contact_preference;
     private $email_contact_date;
-
     function __construct($user_id, $username, $password, $security_group, $registration_date,
             $forename, $surname, $address1, $address2, $address3, $city, $postcode,
             $phone, $phone_contact_preference, $phone_contact_date,
@@ -451,152 +425,115 @@ class User {
         $this->email_contact_preference = $email_contact_preference;
         $this->email_contact_date = $email_contact_date;
     }
-
     function get_user_id() {
         return $this->user_id;
     }
-
     function get_username() {
         return $this->username;
     }
-
     function get_password() {
         return $this->password;
     }
-
     function get_security_group() {
         return $this->security_group;
     }
-
     function get_registration_date() {
         return $this->registration_date;
     }
-
     function get_forename() {
         return $this->forename;
     }
-
     function get_surname() {
         return $this->surname;
     }
-
     function get_address1() {
         return $this->address1;
     }
-
     function get_address2() {
         return $this->address2;
     }
-
     function get_address3() {
         return $this->address3;
     }
-
     function get_city() {
         return $this->city;
     }
-
     function get_postcode() {
         return $this->postcode;
     }
-
     function get_phone() {
         return $this->phone;
     }
-
     function get_phone_contact_preference() {
         return $this->phone_contact_preference;
     }
-
     function get_phone_contact_date() {
         return $this->phone_contact_date;
     }
-
     function get_email() {
         return $this->email;
     }
-
     function get_email_contact_preference() {
         return $this->email_contact_preference;
     }
-
     function get_email_contact_date() {
         return $this->email_contact_date;
     }
-
     function set_user_id($user_id) {
         $this->user_id = $user_id;
     }
-
     function set_username($username) {
         $this->username = $username;
     }
-
     function set_password($password) {
         $this->password = $password;
     }
-
     function set_security_group($security_group) {
         $this->security_group = $security_group;
     }
-
     function set_registration_date($registration_date) {
         $this->registration_date = $registration_date;
     }
-
     function set_forename($forename) {
         $this->forename = $forename;
     }
-
     function set_surname($surname) {
         $this->surname = $surname;
     }
-
     function set_address1($address1) {
         $this->address1 = $address1;
     }
-
     function set_address2($address2) {
         $this->address2 = $address2;
     }
-
     function set_address3($address3) {
         $this->address3 = $address3;
     }
-
     function set_city($city) {
         $this->city = $city;
     }
-
     function set_postcode($postcode) {
         $this->postcode = $postcode;
     }
-
     function set_phone($phone) {
         $this->phone = $phone;
     }
-
     function set_phone_contact_preference($phone_contact_preference) {
         $this->phone_contact_preference = $phone_contact_preference;
     }
-
     function set_phone_contact_date($phone_contact_date) {
         $this->phone_contact_date = $phone_contact_date;
     }
-
     function set_email($email) {
         $this->email = $email;
     }
-
     function set_email_contact_preference($email_contact_preference) {
         $this->email_contact_preference = $email_contact_preference;
     }
-
     function set_email_contact_date($email_contact_date) {
         $this->email_contact_date = $email_contact_date;
     }
 }
-
 class Borrow {
     private $borrow_id;
     private $book_id;
@@ -605,21 +542,17 @@ class Borrow {
     private $return_date;
     private $returned_in_time;
     private $returned_book;
-
     function __construct() {
         $get_arguments = func_get_args();
         $number_of_arguments = func_num_args();
-
         if (method_exists($this, $method_name = '__construct'.$number_of_arguments)) {
             call_user_func_array(array($this, $method_name), $get_arguments);
         }
     }
-
     function __construct2($book_id, $user_id) {
         $this->book_id = $book_id;
         $this->user_id = $user_id;
     }
-
     function __construct7($borrow_id, $book_id, $user_id, $borrow_date, $return_date, $returned_in_time, $returned_book) {
         $this->borrow_id = $borrow_id;
         $this->book_id = $book_id;
@@ -629,64 +562,49 @@ class Borrow {
         $this->returned_in_time = $returned_in_time;
         $this->returned_book = $returned_book;
     }
-
     function get_borrow_id() {
         return $this->borrow_id;
     }
-
     function get_book_id() {
         return $this->book_id;
     }
-
     function get_user_id() {
         return $this->user_id;
     }
-
     function get_borrow_date() {
         return $this->borrow_date;
     }
-
     function get_return_date() {
         return $this->return_date;
     }
-
     function get_returned_in_time() {
         return $this->returned_in_time;
     }
-
     function get_returned_book() {
         return $this->returned_book;
     }
-
     function set_borrow_id($borrow_id) {
         $this->borrow_id = $borrow_id;
     }
-
     function set_book_id($book_id) {
         $this->book_id = $book_id;
     }
-
     function set_user_id($user_id) {
         $this->user_id = $user_id;
     }
-
     function set_borrow_date($borrow_date) {
         $this->borrow_date = $borrow_date;
     }
-
     function set_return_date($return_date) {
         $this->return_date = $return_date;
     }
-
     function set_returned_in_time($returned_in_time) {
         $this->returned_in_time = $returned_in_time;
     }
-
     function set_returned_book($returned_book) {
         $this->returned_book = $returned_book;
     }
 }
-
 class User2 {
     var $user_id;
     var $forename;
@@ -698,7 +616,6 @@ class User2 {
     var $postcode;
     var $phone;
     var $email;
-
     function __construct($user_id, $forename, $surname, $address_line1, $address_line2, $address_line3, $city, $postcode, $phone, $email) {
         $this->user_id = $user_id;
         $this->forename = $forename;
@@ -711,7 +628,6 @@ class User2 {
         $this->phone = $phone;
         $this->email = $email;
     }
-
     //getters
     function getUser_id() {
         return $this->user_id;
@@ -743,7 +659,6 @@ class User2 {
     function getEmail() {
         return $this->email;
     }
-
     //setters
     function setUser_id($user_id) {
         $this->user_id = $user_id;
@@ -776,7 +691,6 @@ class User2 {
         $this->email = $email;
     }
 }
-
 class user3 {
     var $user_id;
     var $user_name;
@@ -792,7 +706,6 @@ class user3 {
     var $email;
     var $phone_contact;
     var $email_contact;
-
     function __construct($user_id, $user_name, $security_group, $forename, $surname,
     $address_line1, $address_line2, $address_line3, $city, $postcode,
     $phone, $email, $phone_contact, $email_contact) {
@@ -811,7 +724,6 @@ class user3 {
         $this->phone_contact = $phone_contact;
         $this->email_contact = $email_contact;
     }
-
     function getUser_id() {
         return $this->user_id;
     }
@@ -890,29 +802,24 @@ class user3 {
     function setPhone_contact ($phone_contact) {
         $this->phone_contact = $phone_contact;
     }
-
     function getEmail_contact() {
         return $this->email_contact;
     }
     function setEmail_contact ($email_contact) {
         $this->email_contact = $email_contact;
     }
-
 }
 /* 
  * I have commented the code below because it causes errors when including this file
  */
-
 /*
 //Created this connection to the db just for testing purposes
 $hostname = "localhost";
 $username = "user";
 $password = "password";
 $dbname = "pusheen_library";
-
 //Created an array for the connection
 $conn = new mysqli($hostname, $username, $password, $dbname);
-
 // If statement to check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -927,9 +834,7 @@ $sql = "SELECT u.user_id, u.username, u.security_group, ud.forename, ud.surname,
 ud.address_line2, ud.address_line3, ud.city, ud.postcode, ud.phone, ud.email, up.email_contact, up.phone_contact,
 up.phone_date from users u LEFT JOIN user_details ud on ud.user_id=u.user_id LEFT JOIN user_preferences up
 on up.user_id=u.user_id;";
-
 $result = $conn->query($sql);
-
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -937,7 +842,6 @@ if ($result->num_rows > 0) {
     $row["forename"], $row["surname"], $row["address_line1"], $row["address_line2"],
     $row["address_line3"], $row["city"], $row["postcode"], $row["phone"], $row["email"],
     $row["phone_contact"], $row["email_contact"]);
-
     //Created objects
     echo "USERNAME: ".$user->getUser_name()."<br>"."<br>";
     echo "NAME: ".$user->getForename(). $user->getSurname()."<br>"."<br>";
@@ -947,7 +851,6 @@ if ($result->num_rows > 0) {
     echo "PHONE: ".$user->getPhone()."<br>"."<br>";
     echo "EMAIL: ".$user->getEmail()."<br>";
     echo "CONTACT PREFERENCE: ". "Phone:" . $user->getPhone_contact(). "  or  " . "Email:" . $user->getEmail_contact()."<br>";
-
         }
 } else {
     echo "0 results";
