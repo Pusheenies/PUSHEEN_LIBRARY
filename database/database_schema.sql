@@ -237,3 +237,18 @@ DELETE FROM borrows WHERE book_id = bookid;
 DELETE FROM books WHERE book_id = bookid;
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE return_book (borrow_id INTEGER)
+BEGIN
+  UPDATE borrows
+  SET returned_book = 1
+  WHERE `borrows`.`borrow_id` = borrow_id;
+  
+  UPDATE borrows
+  SET returned_in_time = 1
+  WHERE `borrows`.`borrow_id` = borrow_id
+  AND return_date > CURRENT_TIMESTAMP;
+END $$
+DELIMITER ;

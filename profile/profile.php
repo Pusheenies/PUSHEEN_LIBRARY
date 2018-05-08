@@ -35,6 +35,5 @@ if (isset($_SESSION['id']) && isset($_SESSION['security'])) {
                 '"personal-details": "' . $personal_details . '",' .
                 '"borrows": "' . $past_borrows . '",' .
                 '"column-1": "' . $recent_books . '"}';
-    }
-           
+    }           
 }

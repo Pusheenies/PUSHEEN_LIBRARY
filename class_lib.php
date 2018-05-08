@@ -27,6 +27,7 @@ class User_Login {
         }
     }
 }
+
 class User_Profile {
     protected $id;
     private $username;
@@ -43,6 +44,7 @@ class User_Profile {
     private $email;
     private $email_contact_pref;
     private $phone_contact_pref;
+    
     function __construct($id, $security, $pdo) {
         $this->id = $id;
         $this->security = $security;
@@ -120,6 +122,7 @@ class User_Profile {
         return $this->phone_contact_pref;
     }
 }
+
 class General_User_Profile extends User_Profile {
     private $borrows;
     private $borrows_data;
@@ -190,7 +193,7 @@ class General_User_Profile extends User_Profile {
                 '</li>' .
                 '<li><span class=\'icon\'>&#x1F4D6;</span>' .
                     'Borrows: '. $this->get_borrows() .
-                    '<a href=\'#\'> ...more</a>' .
+                    ($this->get_borrows() ? '<a href=\'../borrows_info/index.html\'> ...more</a>' : '') .
                 '</li>' . 
                 '<a href=\'#\' class=\'button\'>Edit</a>';
     }
@@ -241,10 +244,41 @@ class General_User_Profile extends User_Profile {
         return $html;
     }
     
+    function get_borrowed_books_html() {
+        $html = '';
+        
+        foreach ($this->borrows_data as $borrow) {
+            $html .= '<div class=\'bookReview\'>' . 
+                        '<img src=\'' . $borrow['image_url'] . '\'>' .
+                        '<div class=\'right\'>' .
+                            '<span class=\'review\'>' .
+                                '<strong>Title: </strong>' . $borrow['title'] . '<br/>' . 
+                                '<strong>Author: </strong>' . $borrow['author_name'] . '<br/>' .
+                                '<strong>Borrow date: </strong>' . date('d-m-Y', strtotime($borrow['borrow_date'])) . '<br/>' .
+                                '<strong>Return date: </strong>' . date('d-m-Y', strtotime($borrow['return_date'])) . '<br/>' .
+                                '<strong>Book returned: </strong>' . ($borrow['returned_book'] ? 'Yes' : 'No') . '<br/>' .
+                                ($borrow['returned_book'] ? '<strong>Returned late: </strong>' . (!$borrow['returned_in_time'] ? 'Yes' : 'No') . '<br/>' : '') .
+                            '</span>' .
+                            (!$borrow['returned_book'] ?
+                            '<form id=\'return\' method=\'post\'>' .
+                                '<input type=\'hidden\' id=\'book-id\' name=\'book-id\' value=\'' . $borrow['borrow_id'] . '\'>' .
+                                '<input type=\'submit\' value=\'Return\' class=\'btn button toughBtn mt-4\'/>'
+                                : '') .
+                            '</form>' . 
+                        '</div>' .
+                     '</div>';                  
+        }
+        
+        $html .= '<div id=\'error-msg\'></div>';
+        
+        return $html;
+    }
+    
     function get_borrows() {
         return $this->borrows;
     }
 }
+
 class Staff_User_Profile extends User_Profile {
     private $overdue_borrows;
     
@@ -292,6 +326,7 @@ class Staff_User_Profile extends User_Profile {
         return $html;
     }
 }
+
 class Book {
     private $book_id;
     private $isbn;
@@ -459,7 +494,6 @@ class Search {
     }
 }
 
-
 class User {
     private $user_id;
     private $username;
@@ -611,77 +645,25 @@ class User {
         $this->email_contact_date = $email_contact_date;
     }
 }
+
 class Borrow {
     private $borrow_id;
-    private $book_id;
-    private $user_id;
-    private $borrow_date;
-    private $return_date;
-    private $returned_in_time;
-    private $returned_book;
-    function __construct() {
-        $get_arguments = func_get_args();
-        $number_of_arguments = func_num_args();
-        if (method_exists($this, $method_name = '__construct'.$number_of_arguments)) {
-            call_user_func_array(array($this, $method_name), $get_arguments);
-        }
+    
+    function __construct($borrow_id) {
+        $this->borrow_id = $borrow_id;  
     }
-    function __construct2($book_id, $user_id) {
-        $this->book_id = $book_id;
-        $this->user_id = $user_id;
-    }
-    function __construct7($borrow_id, $book_id, $user_id, $borrow_date, $return_date, $returned_in_time, $returned_book) {
-        $this->borrow_id = $borrow_id;
-        $this->book_id = $book_id;
-        $this->user_id = $user_id;
-        $this->borrow_date = $borrow_date;
-        $this->return_date = $return_date;
-        $this->returned_in_time = $returned_in_time;
-        $this->returned_book = $returned_book;
-    }
-    function get_borrow_id() {
-        return $this->borrow_id;
-    }
-    function get_book_id() {
-        return $this->book_id;
-    }
-    function get_user_id() {
-        return $this->user_id;
-    }
-    function get_borrow_date() {
-        return $this->borrow_date;
-    }
-    function get_return_date() {
-        return $this->return_date;
-    }
-    function get_returned_in_time() {
-        return $this->returned_in_time;
-    }
-    function get_returned_book() {
-        return $this->returned_book;
-    }
-    function set_borrow_id($borrow_id) {
-        $this->borrow_id = $borrow_id;
-    }
-    function set_book_id($book_id) {
-        $this->book_id = $book_id;
-    }
-    function set_user_id($user_id) {
-        $this->user_id = $user_id;
-    }
-    function set_borrow_date($borrow_date) {
-        $this->borrow_date = $borrow_date;
-    }
-    function set_return_date($return_date) {
-        $this->return_date = $return_date;
-    }
-    function set_returned_in_time($returned_in_time) {
-        $this->returned_in_time = $returned_in_time;
-    }
-    function set_returned_book($returned_book) {
-        $this->returned_book = $returned_book;
+    
+    function return_book($pdo) {
+        $sql = "CALL return_book(:borrow_id);";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'borrow_id' => $this->borrow_id
+        ]);
+        
+        return $result;
     }
 }
+
 class User2 {
     var $user_id;
     var $forename;
