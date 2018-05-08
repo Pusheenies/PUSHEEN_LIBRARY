@@ -60,11 +60,11 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
     <body>
         <nav class="navbar navbar-expand navbar-dark" style="height:70px;"> 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../profile/index.html">Profile</a>
+                    <a class="nav-link" href="../profile/index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Book Search</a>
                 </li>
               </ul>
               <ul class="navbar-nav">
