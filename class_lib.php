@@ -27,106 +27,439 @@ class User_Login {
         }
     }
 }
+class User_Profile {
+    protected $id;
+    private $username;
+    private $forename;
+    private $surname;
+    private $security;
+    private $genres;
+    private $address_line1;
+    private $address_line2;
+    private $address_line3;
+    private $city;
+    private $postcode;
+    private $phone;
+    private $email;
+    private $email_contact_pref;
+    private $phone_contact_pref;
+    function __construct($id, $security, $pdo) {
+        $this->id = $id;
+        $this->security = $security;
+        
+        $this->set_details($pdo);
+    }
+    private function set_details($pdo) {
+        $sql = "SELECT u.username, ud.forename, ud.surname, 
+                ud.address_line1, ud.address_line2, ud.address_line3, ud.city, ud.postcode, 
+                ud.phone, ud.email, up.email_contact, up.phone_contact 
+                FROM users u 
+                LEFT JOIN user_details ud ON ud.user_id = u.user_id 
+                LEFT JOIN user_preferences up ON up.user_id = u.user_id 
+                WHERE u.user_id = :id 
+                LIMIT 1;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        foreach ($result as $key => $data) {
+            $this->$key = $data;
+        }
+    }
+    
+    function get_title() {
+        return 'Welcome back ' . $this->get_forename();
+    }
+    
+    function get_id() {
+        return $this->id;
+    }
+    function get_username() {
+        return $this->username;
+    }
+    function get_forename() {
+        return $this->forename;
+    }
+    function get_surname() {
+        return $this->surname;
+    }
+    function get_security() {
+        return $this->security;
+    }
+    function get_genres() {
+        return $this->genres;
+    }
+    function get_address_line1() {
+        return $this->address_line1;
+    }
+    function get_address_line2() {
+        return $this->address_line2;
+    }
+    function get_address_line3() {
+        return $this->address_line3;
+    }
+    function get_city() {
+        return $this->city;
+    }
+    function get_postcode() {
+        return $this->postcode;
+    }
+    function get_phone() {
+        return $this->phone;
+    }
+    function get_email() {
+        return $this->email;
+    }
+    function get_email_contact_pref() {
+        return $this->email_contact_pref;
+    }
+    function get_phone_contact_pref() {
+        return $this->phone_contact_pref;
+    }
+}
+class General_User_Profile extends User_Profile {
+    private $borrows;
+    private $borrows_data;
+    private $recent_books;
+    
+    function borrows($pdo) {
+        $sql = "SELECT bo.borrow_id, b.title, a.author_name, b.image_url,
+                bo.borrow_date, bo.return_date, bo.returned_in_time, bo.returned_book
+                FROM borrows bo
+                JOIN books b ON b.book_id = bo.book_id 
+                JOIN authors_books ab ON ab.book_id = b.book_id 
+                JOIN authors a ON a.author_id = ab.author_id 
+                WHERE bo.user_id = :id
+                ORDER BY bo.borrow_id;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->borrows_data[] = $result;
+        }
+        
+        $this->set_borrows($pdo);
+    }
+    
+    private function set_borrows($pdo) {
+        $sql = "SELECT count(bo.borrow_id) borrows_count
+                FROM borrows bo
+                WHERE bo.user_id = :id
+                GROUP BY bo.user_id;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'id' => $this->id
+        ]);
+        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        $this->borrows = $result['borrows_count'] ?? 0;
+    }
+    
+    function set_recent_books($pdo) {
+        $sql = "SELECT b.title, a.author_name, b.image_url, g.genre_name, avg(r.rating) rating
+                FROM books b
+                JOIN authors_books ab ON ab.book_id = b.book_id 
+                JOIN authors a ON a.author_id = ab.author_id
+                JOIN genres g ON g.genre_id = b.genre_id
+                LEFT JOIN ratings r ON r.book_id = b.book_id
+                GROUP BY b.book_id
+                ORDER BY b.date_added DESC
+                LIMIT 5;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->recent_books[] = $result;
+        }
+    }
+    function get_personal_details_html() {
+        return  '<li><span class=\'icon\'>&#x1F464;</span>' .
+                    'Username: ' . $this->get_username() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x2709;</span>' .
+                    'Email: ' . $this->get_email() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F511;</span>' .
+                    'Password: *************' .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F4D6;</span>' .
+                    'Borrows: '. $this->get_borrows() .
+                    '<a href=\'#\'> ...more</a>' .
+                '</li>' . 
+                '<a href=\'#\' class=\'button\'>Edit</a>';
+    }
+    
+    function get_past_borrows_html() {
+        $html = '<h2>Your Past Borrows</h2>' .
+                 '<ul>';
+        
+        if (!$this->borrows_data) {
+            $html .=  '<p>No borrows yet!</p>';
+        } else {
+            foreach ($this->borrows_data as $borrow) {
+                $html .= '<ul>' .
+                            '<li><img src=\'' . $borrow['image_url'] . '\'></li>' .
+                         '</ul>';                  
+            }
+        }
+        $html .= '</div>';
+        
+        return $html;
+    }
+    
+    function get_recent_books_html() {
+        $html = '<h2>Our latest books</h2>';
+        
+        foreach ($this->recent_books as $book) {
+            $html .= '<div class=\'bookReview\'>' . 
+                        '<img src=\'' . $book['image_url'] . '\'>' .
+                        '<div class=\'right\'>' .
+                            '<span class=\'rating\'>';
+            
+            for ($i = 0; $i < $book['rating']; $i++) {
+                $html .= '&#x22C6;';
+            }
+            
+            $html .=            '</span><br/>' .
+                            '<span class=\'review\'>' .
+                                '<strong>Title: </strong>' . $book['title'] . '<br/>' . 
+                                '<strong>Author: </strong>' . $book['author_name'] . '<br/>' .
+                                '<strong>Genre: </strong>' . $book['genre_name'] . '<br/>' .
+                            '</span>' .
+                        '</div>' .
+                     '</div>';                  
+        }
+        // TODO: link to book search
+        $html .= '<a href=\'#\' class=\'button\'>More Books</a>' . '</div>';
+        
+        return $html;
+    }
+    
+    function get_borrows() {
+        return $this->borrows;
+    }
+}
+class Staff_User_Profile extends User_Profile {
+    private $overdue_borrows;
+    
+    function overdue_borrows($pdo) {
+        $sql = "SELECT distinct b.image_url
+                FROM borrows bo
+                JOIN books b ON b.book_id = bo.book_id 
+                WHERE bo.return_date < CURRENT_TIMESTAMP AND bo.returned_book = 0;";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        
+        while ($result = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->overdue_borrows[] = $result;
+        }
+    }
+    
+    function get_personal_details_html() {
+        return  '<li><span class=\'icon\'>&#x1F464;</span>' .
+                    'Username: ' . $this->get_username() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x2709;</span>' .
+                    'Email: ' . $this->get_email() .
+                '</li>' .
+                '<li><span class=\'icon\'>&#x1F511;</span>' .
+                    'Password: *************' .
+                '</li>' .
+                '<a href=\'#\' class=\'button\'>Edit</a>';
+    }
+    
+    function get_overdue_borrows_html() {
+        $html = '<h2>Overdue Borrows</h2>' .
+                 '<ul>';
+        
+        if (!$this->overdue_borrows) {
+            $html .=  '<p>No overdue books</p>';
+        } else {
+            foreach ($this->overdue_borrows as $borrow) {
+                $html .= '<ul>' .
+                            '<li><img src=\'' . $borrow['image_url'] . '\'></li>' .
+                         '</ul>';                  
+            }
+        }
+        $html .= '</div>';
+        
+        return $html;
+    }
+}
 class Book {
     private $book_id;
-    private $date_added;
-    private $title;
     private $isbn;
-    private $authors;
-    private $genre;
+    private $title;
     private $image_url;
+    private $genre_id;
     private $book_format;
     private $stock;
     private $book_condition;
     private $publication_year;
     private $book_location;
-    private $is_new_release;
-    function __construct($book_id, $date_added, $title, $isbn, $authors, $genre, $image_url, $book_format,
-            $stock, $book_condition, $publication_year, $book_location, $is_new_release) {
+    private $date_added;
+    private $author_id;
+    private $author_name;
+   
+    function __construct($book_id, $isbn, $title, $image_url, $genre_id, $book_format, $stock, $book_condition, $publication_year, $book_location, $date_added, $author_id, $author_name) {
         $this->book_id = $book_id;
-        $this->date_added = $date_added;
-        $this->title = $title;
         $this->isbn = $isbn;
-        $this->authors = $authors;
-        $this->genre = $genre;
+        $this->title = $title;
         $this->image_url = $image_url;
+        $this->genre_id = $genre_id;
         $this->book_format = $book_format;
         $this->stock = $stock;
         $this->book_condition = $book_condition;
         $this->publication_year = $publication_year;
         $this->book_location = $book_location;
-        $this->is_new_release = $is_new_release;
+        $this->date_added = $date_added;
+        $this->author_id = $author_id;
+        $this->author_name = $author_name;
     }
-    public function get_title() {
-        return $this->title;
+    
+    function add_book($pdo) {
+        $sql = "CALL add_book_and_author(:isbn, :title, :author, :image_url, :genre_id, 
+                :book_format, :stock, :book_condition, :publication_year, :book_location);";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'isbn' => $this->isbn,
+            'title' => $this->title,
+            'author' => $this->author_name,
+            'image_url' => $this->image_url,
+            'genre_id' => $this->genre_id,
+            'book_format' => $this->book_format,
+            'stock' => $this->stock,
+            'book_condition' => $this->book_condition,
+            'publication_year' => $this->publication_year,
+            'book_location' => $this->book_location
+        ]);
+        
+        echo $result;
     }
-    public function get_isbn() {
+    
+    function getBook_id() {
+        return $this->book_id;
+    }
+    function getIsbn() {
         return $this->isbn;
     }
-    public function get_authors() {
-        return $this->authors;
+    function getTitle() {
+        return $this->title;
     }
-    public function get_genre() {
-        return $this->genre;
-    }
-    public function get_image_url() {
+    function getImage_url() {
         return $this->image_url;
     }
-    public function get_book_format() {
+    function getGenre_id() {
+        return $this->genre_id;
+    }
+    function getBook_format() {
         return $this->book_format;
     }
-    public function get_stock() {
+    function getStock() {
         return $this->stock;
     }
-    public function get_book_condition() {
+    function getBook_condition() {
         return $this->book_condition;
     }
-    public function get_publication_year() {
+    function getPublication_year() {
         return $this->publication_year;
     }
-    public function get_book_location() {
+    function getBook_location() {
         return $this->book_location;
     }
-    public function get_is_new_release() {
-        return $this->is_new_release;
+    function getDate_added() {
+        return $this->date_added;
     }
-    public function set_title($title) {
-        $this->title = $title;
+    function getAuthor_id() {
+        return $this->author_id;
     }
-    public function set_isbn($isbn) {
-        $this->isbn = $isbn;
-    }
-    public function set_authors($authors) {
-        $this->authors = $authors;
-    }
-    public function set_genre($genre) {
-        $this->genre = $genre;
-    }
-    public function set_image_url($image_url) {
-        $this->image_url = $image_url;
-    }
-    public function set_book_format($book_format) {
-        $this->book_format = $book_format;
-    }
-    public function set_stock($stock) {
-        $this->stock = $stock;
-    }
-    public function set_book_condition($book_condition) {
-        $this->book_condition = $book_condition;
-    }
-    public function set_publication_year($publication_year) {
-        $this->publication_year = $publication_year;
-    }
-    public function set_book_location($book_location) {
-        $this->book_location = $book_location;
-    }
-    public function set_is_new_release($is_new_release) {
-        $this->is_new_release = $is_new_release;
-    }
-    public function decrease_stock() {
-        $this->stock -= 1;
+    function getAuthor_name() {
+        return $this->author_name;
     }
 }
+
+class Search {
+    public $title;
+    public $author;
+    public $isbn;
+    public $genre;
+    public $rating;
+    public $book_format;
+    
+    function __construct($title, $author, $isbn, $genre, $rating, $book_format) {
+        $this->title = $title;
+        $this->author = $author;
+        $this->isbn = $isbn;
+        $this->genre = $genre;
+        $this->rating = $rating;
+        $this->book_format = $book_format;
+    }
+
+    function searchByXParams($pdo){
+        $search_results= [];
+        $wheres= [];
+        $params= [];
+        if (!empty($this->title)){
+            $wheres[]= "b.title LIKE CONCAT('%', :title, '%')";
+            $params[":title"]= $this->title;
+        }
+        if (!empty($this->author)){
+            $wheres[]= "a.author_name LIKE CONCAT('%', :author, '%')";
+            $params[":author"]= $this->author;
+        }
+        if (!empty($this->isbn)){
+            $wheres[]= "b.isbn = :isbn";
+            $params[":isbn"]= $this->isbn;
+        }
+        if (!empty($this->genre)){
+            $wheres[]= "genre_id = :genre";
+            $params["genre"]= $this->genre;
+        }
+        if (!empty($this->book_format)){
+            $wheres[]= "b.book_format = :book_format";
+            $params["book_format"]= $this->book_format;
+        }
+
+        $sql= "SELECT *
+                FROM books b
+                JOIN authors_books ab ON ab.book_id = b.book_id
+                JOIN authors a ON a.author_id = ab.author_id";
+        if(!empty($wheres)){
+            $sql.= " WHERE " . implode(" AND ", $wheres);
+        }
+
+        //////special case for selecting with the rating parameter
+        if(!empty($this->rating)){
+            $sql= "SELECT *, round(avg(r.rating)) as rounded_avg_rating
+                    FROM books b
+                    JOIN authors_books ab ON ab.book_id = b.book_id
+                    JOIN authors a ON a.author_id = ab.author_id
+                    JOIN ratings r ON r.book_id = b.book_id";
+            if(!empty($wheres)){
+                $sql.= " WHERE " . implode(" AND ", $wheres);
+            }
+            $params["rating"]= $this->rating;
+            $sql.= " GROUP BY b.book_id
+                    HAVING rounded_avg_rating = :rating";
+        }
+        //////end of special case
+
+        $stmt= $pdo->prepare($sql);
+        $stmt->execute($params);
+        while ($row= $stmt->fetch(PDO::FETCH_ASSOC)){
+            array_push($search_results, $row);
+        }
+        return $search_results;
+    }
+}
+
+
 class User {
     private $user_id;
     private $username;
@@ -348,101 +681,6 @@ class Borrow {
     function set_returned_book($returned_book) {
         $this->returned_book = $returned_book;
     }
-}
-class Book2 {
-    var $book_id;
-    var $ISBN;
-    var $title;
-    var $image_url;
-    var $genre_id;
-    var $book_format;
-    var $stock;
-    var $book_condition;
-    var $publication_year;
-    var $book_location;
-    var $date_added;
-    function __construct($book_id, $ISBN, $title, $image_url, $genre_id, $book_format, $stock, $book_condition, $publication_year, $book_location, $date_added) {
-        $this->book_id = $book_id;
-        $this->ISBN = $ISBN;
-        $this->title = $title;
-        $this->image_url = $image_url;
-        $this->genre_id = $genre_id;
-        $this->book_format = $book_format;
-        $this->stock = $stock;
-        $this->book_condition = $book_condition;
-        $this->publication_year = $publication_year;
-        $this->book_location = $book_location;
-        $this->date_added = $date_added;
-    }
-    //getters
-    function get_book_id() {
-        return $this->book_id;
-    }
-    function get_ISBN() {
-        return $this->ISBN;
-    }
-    function get_title() {
-        return $this->title;
-    }
-    function get_image_url() {
-        return $this->image_url;
-    }
-    function get_genre_id() {
-        return $this->genre_id;
-    }
-    function get_book_format() {
-        return $this->book_format;
-    }
-    function get_stock() {
-        return $this->stock;
-    }
-    function get_book_condition() {
-        return $this->book_condition;
-    }
-    function get_publication_year() {
-        return $this->publication_year;
-    }
-    function get_book_location() {
-        return $this->book_location;
-    }
-    function get_date_added() {
-        return $this->date_added;
-    }
-    //setters
-    function set_book_id($book_id) {
-        $this->book_id = $book_id;
-    }
-    function set_ISBN($ISBN) {
-        $this->ISBN = $ISBN;
-    }
-    function set_title($title) {
-        $this->title = $title;
-    }
-    function set_image_url($image_url) {
-        $this->image_url = $image_url;
-    }
-    function set_genre_id($genre_id) {
-        $this->genre_id = $genre_id;
-    }
-    function set_book_format($book_format) {
-        $this->book_format = $book_format;
-    }
-    function set_stock($stock) {
-        $this->stock = $stock;
-    }
-    function set_book_condition($book_condition) {
-        $this->book_condition = $book_condition;
-    }
-    function set_publication_year($publication_year) {
-        $this->publication_year = $publication_year;
-    }
-    function set_book_location($book_location) {
-        $this->book_location = $book_location;
-    }
-    //not sure we need this setter: would we change the date?
-    //function set_date_added($date_added) {
-        //$this->date_added = $date_added;
-    //}
 }
 class User2 {
     var $user_id;

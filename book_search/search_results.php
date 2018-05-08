@@ -7,7 +7,7 @@ if (!isset($_SESSION["id"])){
     return;
 }
 
-include "../class_book.php";
+include "../class_lib.php";
 $security= $_SESSION["security"];
 $results= $_SESSION["search_results"];
 $book_objects= [];
@@ -22,20 +22,35 @@ foreach($results as $book){
 
 <html>
     <head>
-    <title>Pusheen Library - Results</title>
+    <title>Pusheen Library - Search results</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="search_results.css">
-        <link rel="stylesheet" href="../steph/_css/style.css">
+        <link rel="stylesheet" href="../_css/search_results.css">
+        <link rel="stylesheet" href="../_css/style.css">
         <!--Fonts-->
         <link rel="stylesheet" type="text/css" href="../steph/_css/ss-pika.css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <a href="../logout/logout.php" class="btn btn-warning" style="float:right;">Logout</a>
+    <nav class="navbar navbar-expand navbar-dark" style="height:70px;"> 
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../profile/index.html">Profile</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout/logout.php">Logout</a>
+                </li>
+              </ul>
+        </nav>
+        
         <div class="container">
         <h1 class="text-center">Your results</h1>
         <div class="flex-container">

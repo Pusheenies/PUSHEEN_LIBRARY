@@ -5,10 +5,10 @@ $("#login").submit(function (event) {
     
     $.post("login.php", data).done(function (response) {
         if (response === "Login Successful") {
-            // TODO: redirect to main page
-            window.location.replace("../book_search/book_search.php");
+            window.location = "../profile/index.html";
         } else {
             $("#error-msg").html("Login unsuccessful. Please try again.");
         }
     });
 });
+
