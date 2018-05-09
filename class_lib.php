@@ -72,6 +72,45 @@ class User_Profile {
         }
     }
     
+    function update_username($new_username, $pdo) {
+        $sql = "UPDATE users
+                SET username = :new_username
+                WHERE user_id = :user_id;";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'new_username' => $new_username,
+            'user_id' => $this->id
+        ]);
+        
+        return $result;
+    }
+    
+    function update_email($new_email, $pdo) {
+        $sql = "UPDATE user_details
+                SET email = :new_email
+                WHERE user_id = :user_id;";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'new_email' => $new_email,
+            'user_id' => $this->id
+        ]);
+        
+        return $result;
+    }
+    
+    function update_password($new_password, $pdo) {
+        $sql = "UPDATE users
+                SET password = PASSWORD(:new_password)
+                WHERE user_id = :user_id;";
+        $statement = $pdo->prepare($sql);
+        $result = $statement->execute([
+            'new_password' => $new_password,
+            'user_id' => $this->id
+        ]);
+        
+        return $result;
+    }
+    
     function get_title() {
         return 'Welcome back ' . $this->get_forename();
     }
@@ -195,7 +234,7 @@ class General_User_Profile extends User_Profile {
                     'Borrows: '. $this->get_borrows() .
                     ($this->get_borrows() ? '<a href=\'../borrows_info/index.html\'> ...more</a>' : '') .
                 '</li>' . 
-                '<a href=\'#\' class=\'button\'>Edit</a>';
+                '<a href=\'../user_details/index.html\' class=\'button\'>Edit</a>';
     }
     
     function get_past_borrows_html() {
@@ -305,7 +344,7 @@ class Staff_User_Profile extends User_Profile {
                 '<li><span class=\'icon\'>&#x1F511;</span>' .
                     'Password: *************' .
                 '</li>' .
-                '<a href=\'#\' class=\'button\'>Edit</a>';
+                '<a href=\'../user_details/index.html\' class=\'button\'>Edit</a>';
     }
     
     function get_overdue_borrows_html() {

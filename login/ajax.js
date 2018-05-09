@@ -7,7 +7,7 @@ $("#login").submit(function (event) {
         if (response === "Login Successful") {
             window.location = "../profile/index.html";
         } else {
-            $("#error-msg").html("Login unsuccessful. Please try again.");
+            $("#error-msg").html("Login unsuccessful, please try again");
         }
     });
 });

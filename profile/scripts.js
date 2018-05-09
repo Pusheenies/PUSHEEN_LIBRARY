@@ -25,7 +25,7 @@ $("#add-book").submit(function (event) {
             $(".form-control").val("");
             $(":checkbox, :radio").prop("checked", false);
         } else {
-            $("#result").html("Something went wrong. Please try again.");
+            $("#result").html("Something went wrong, please try again");
         }
     });
 });
