@@ -7,24 +7,6 @@ if (!isset($_SESSION["id"])){
     return;
 }
 
-//////notifications///////
-if (isset($_SESSION["success_delete"])){
-    echo "<p style='color:white;'>" . $_SESSION["success_delete"] . "</p>";
-    unset($_SESSION["success_delete"]);
-
-}
-if (isset($_SESSION["success_edit"])){
-    echo "<p style='color:white;'>" . $_SESSION["success_edit"] . "</p>";
-    unset($_SESSION["success_edit"]);
-}
-if (isset($_SESSION["rating"])){
-    echo "<p style='color:white;'>" . $_SESSION["rating"] . "</p>";
-    unset($_SESSION["rating"]);
-}
-if (isset($_SESSION["success_borrow"])){
-    echo "<p style='color:white;'>" . $_SESSION["success_borrow"] . "</p>";
-    unset($_SESSION["success_borrow"]);
-}
 ////////////////////////////
 
 include "../pdo_php.php";
@@ -48,7 +30,6 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
         <title>Pusheen Library - Search books</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
         <link rel="stylesheet" href="../_css/style.css">
@@ -79,6 +60,26 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
             <h1>Book search</h1>
             <div id="unique-section" class="row">
                 <div class="section" style="width:100%;">
+                <?php
+                //////notifications///////
+                if (isset($_SESSION["success_delete"])){
+                    echo "<p style='text-align:center;'>" . $_SESSION["success_delete"] . "</p>";
+                    unset($_SESSION["success_delete"]);
+
+                }
+                if (isset($_SESSION["success_edit"])){
+                    echo "<p style='text-align:center;'>" . $_SESSION["success_edit"] . "</p>";
+                    unset($_SESSION["success_edit"]);
+                }
+                if (isset($_SESSION["rating"])){
+                    echo "<p style='text-align:center;'>" . $_SESSION["rating"] . "</p>";
+                    unset($_SESSION["rating"]);
+                }
+                if (isset($_SESSION["success_borrow"])){
+                    echo "<p style='text-align:center;'>" . $_SESSION["success_borrow"] . "</p>";
+                    unset($_SESSION["success_borrow"]);
+                }
+                ?>
                 <form action="" method="post" class="col-sm-6 offset-sm-3">
                     <div class="form-group">
                         <label for="title">Title:</label>

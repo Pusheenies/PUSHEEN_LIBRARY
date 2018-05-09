@@ -278,7 +278,7 @@ class General_User_Profile extends User_Profile {
                      '</div>';                  
         }
         // TODO: link to book search
-        $html .= '<a href=\'#\' class=\'button\'>More Books</a>' . '</div>';
+        $html .= '<a href=\'../book_search/book_search.php\' class=\'button\'>More Books</a>' . '</div>';
         
         return $html;
     }
