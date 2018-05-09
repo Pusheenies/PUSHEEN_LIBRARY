@@ -36,34 +36,35 @@
             
             <div id="unique-section" class="row">
                 <div id="details" class="section large-form">
-                    <form id="form-email" method="post">
+                    <form class="form-update" method="post">
                         <div class="input-group mb-3">
                             <span class="icon">&#x1F464;</span>
-                            <input type="text" class="form-control" placeholder="New Username" aria-label="New Username" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" name="username" placeholder="New Username" aria-label="New Username" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-secondary" type="submit" value="Update">
                             </div>
                         </div>
                     </form>
-                    <form id="form-email" method="post">
+                    <form class="form-update" method="post">
                         <div class="input-group mb-3">
                             <span class="icon">&#x2709;</span>
-                            <input type="text" class="form-control" placeholder="New Email" aria-label="New Email" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" name="email" placeholder="New Email" aria-label="New Email" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-secondary" type="submit" value="Update">
                             </div>
                         </div>
                     </form>
-                    <form id="form-password" method="post">
+                    <form class="form-update" method="post">
                         <div class="input-group mb-3">
                             <span class="icon">&#x1F511;</span>
-                            <input type="text" class="form-control" placeholder="New Password" aria-label="New Password" aria-describedby="basic-addon2">
-                            <input type="text" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" name="password" placeholder="New Password" aria-label="New Password" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" name="confirmation" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-secondary" type="submit" value="Update">
                             </div>
                         </div>
                     </form>
+                    <div id="message"></div>
                 </div>
             </div>
         </div>
