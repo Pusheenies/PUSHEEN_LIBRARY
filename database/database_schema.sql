@@ -191,6 +191,7 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
+
 CREATE PROCEDURE add_user (
   IN USRNAME VARCHAR(20),
   IN PASS VARCHAR(50),
@@ -203,29 +204,23 @@ CREATE PROCEDURE add_user (
   IN CITY VARCHAR(60),
   IN PCODE VARCHAR(30),
   PHONE VARCHAR(40),
-  EMAIL VARCHAR(60),
-  EPREFERENCE CHAR(1),
-  PPREFERENCE CHAR(1)
+  EMAIL VARCHAR(60)
+  
 )
+ 
 BEGIN
-    INSERT INTO users
-    (username, password, security_group)
-    VALUES
-    (USRNAME, PASS, SECGROUP);
+INSERT INTO users (username, password, security_group) VALUES (USRNAME, PASS, SECGROUP);
  
-    INSERT INTO user_details
-    (user_id, forename, surname ,address_line1, address_line2, address_line3, city, postcode, phone, email)
-    VALUES
-    ((SELECT user_id FROM users WHERE username=USRNAME ORDER BY user_id DESC limit 1),
-    FNAME,SNAME,ADD1,ADD2,ADD3,CITY,PCODE,PHONE,EMAIL);
+INSERT INTO user_details (user_id, forename, surname ,address_line1,
+address_line2, address_line3, city, postcode, phone, email)
+VALUES ((SELECT user_id FROM users WHERE username=USRNAME ORDER BY user_id
+DESC limit 1),
+FNAME,SNAME,ADD1,ADD2,ADD3,CITY,PCODE,PHONE,EMAIL);
  
-    INSERT INTO user_preferences
-    (user_id, email_contact, phone_contact)
-    VALUES
-    ((SELECT user_id FROM users WHERE username = USRNAME ORDER BY user_id DESC limit 1),
-    EPREFERENCE, PPREFERENCE);
 END $$
+
 DELIMITER ;
+
 
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteBook`(IN `bookid` INT)
