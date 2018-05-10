@@ -58,7 +58,7 @@ $book= new Book($row["book_id"], $row["isbn"], $row["title"], $row["image_url"],
                     <a class="nav-link" href="../profile/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../book_search/book_search.php">Book Search</a>
+                    <a class="nav-link" href="../book_search/book_search.php">Search & Borrow Books</a>
                 </li>
               </ul>
               <ul class="navbar-nav">
