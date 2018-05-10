@@ -42,7 +42,7 @@ if (isset($_POST ['register'])){
           $query->execute();
           
           echo '<script type="text/javascript">window.location.href="login/index.html";</script>';
-          die("<b>thank you for your registration. please log in</b>");
+          die();
         }  
     
 }}}
