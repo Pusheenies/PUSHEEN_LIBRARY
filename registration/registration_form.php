@@ -26,47 +26,47 @@
                         </div> 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="surname" class="form-control" placeholder="Last Name" required autofocus/>
+                            <input type="text" name="surname" class="form-control" placeholder="Last Name" required/>
                         </div>
                         <div class="form-group">
                             <label>Address 1:</label>
-                            <input type="text" name="address_line1" class="form-control" placeholder="Address line 1" required autofocus/>
+                            <input type="text" name="address_line1" class="form-control" placeholder="Address line 1" required/>
                         </div> 
                         <div class="form-group">
                             <label>Address 2:</label>
-                            <input type="text" name="address_line2" class="form-control" placeholder="Address line 2" required autofocus/>
+                            <input type="text" name="address_line2" class="form-control" placeholder="Address line 2"/>
                         </div>
                         <div class="form-group">
                             <label>Address 3:</label>
-                            <input type="text" name="address_line3" class="form-control" placeholder="Address line 3" required autofocus/>
+                            <input type="text" name="address_line3" class="form-control" placeholder="Address line 3"/>
                         </div>  
                         <div class="form-group">
                             <label>City:</label>
-                            <input type="text" name="city" class="form-control" placeholder="City" required autofocus/>
+                            <input type="text" name="city" class="form-control" placeholder="City" required/>
                         </div>   
                         <div class="form-group">
                             <label>Postcode:</label>
-                            <input type="text" name="postcode" class="form-control" placeholder="Post Code" required autofocus/>
+                            <input type="text" name="postcode" class="form-control" placeholder="Post Code" required/>
                         </div>              
                         <div class="form-group">
                             <label>Email:</label>
-                        <input type="email" name="email" class="form-control" placeholder="pusheen@pusheen.com" required autofocus/>
+                        <input type="email" name="email" class="form-control" placeholder="pusheen@pusheen.com" required/>
                         </div> 
                         <div class="form-group">
                             <label>Phone:</label>
-                        <input type="text" name="phone" class="form-control" placeholder="Phone" required autofocus/>
+                        <input type="text" name="phone" class="form-control" placeholder="Phone" required/>
                         </div> 
                         <div class="form-group">
                             <label>Username:</label>
-                            <input type="text" name="username" class="form-control" placeholder="Username" required autofocus/>
+                            <input type="text" name="username" class="form-control" placeholder="Username" required/>
                         </div>  
                         <div class="form-group">
                             <label>Password:</label>
-                        <input type="password" name="password" class="form-control" placeholder="*******" required autofocus/>
+                        <input type="password" name="password" class="form-control" placeholder="*******" required/>
                         </div> 
                         <div class="form-group">
                             <label>Confirm Password:</label>
-                            <input type="text" name="cpassword" class="form-control" placeholder="*******" required autofocus/>
+                            <input type="password" name="cpassword" class="form-control" placeholder="*******" required/>
                         </div>   
                         <div class="form-group">
                             <input type="submit" name="register" class="btn btn-primary"/>

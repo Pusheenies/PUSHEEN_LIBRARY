@@ -41,7 +41,7 @@ if (isset($_POST ['register'])){
 
           $query->execute();
           
-          echo '<script type="text/javascript">window.location.href="login/index.html";</script>';
+          echo '<script type="text/javascript">window.location.href="../login/index.html";</script>';
           die();
         }  
     
