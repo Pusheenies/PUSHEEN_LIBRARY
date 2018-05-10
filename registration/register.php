@@ -21,7 +21,7 @@ if (isset($_POST ['register'])){
         if($password && $cpassword){
         if($password!==$cpassword)
             {
-            die ("<b><font size=14 align='center'>You're passwords don't match</font></b>");
+            die ("<b><font size=14 align='center'>You're passwords do not match, please type carefully</font></b>");
         } else {
 
 	$sthandler = $con->prepare("SELECT username FROM users WHERE username = :name");

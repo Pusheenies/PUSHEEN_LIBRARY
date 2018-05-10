@@ -11,17 +11,16 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link href="styles.css" rel="stylesheet" type="text/css"/>  
 </head>
-    <body>
-        
-        
+    <body>             
+       
         <div class="container">
             <h1>Register</h1>
         </div>
+                      
+        <div id="unique-section" class="row">
         
-        
-                    
-        <div id="unique-section" class="../row">
-                <div class="section">
+        <div class="section">
+              
         <form method="post" action="register.php">
                 
         <div class="form-group">
@@ -87,13 +86,15 @@
         <div class="form-group">
             <input type="submit" name="register" class="btn btn-primary"/>
         </div>
-            </form>
-                    <div id="error-msg" class="mt-4"><!-- Error message for unsuccessful login --></div>
-                </div>
-            
+        </form>
+                    
+        </div>    
   	<div class="form-group">
-  		Already a member? <a href="login/index.html">Sign in</a>
-  	</div>
+            <b>Already a member?</b> <a href="login/index.html"><b>Sign in</b></a>
+        </div>
+            </div>
+      
+               
          <!-- Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -103,9 +104,5 @@
 </html>
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
