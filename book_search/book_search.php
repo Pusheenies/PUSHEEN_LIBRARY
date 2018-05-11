@@ -7,8 +7,6 @@ if (!isset($_SESSION["id"])){
     return;
 }
 
-////////////////////////////
-
 include "../pdo_php.php";
 include "../class_lib.php";
 
@@ -57,7 +55,7 @@ if (!empty($_REQUEST["title"]) || !empty($_REQUEST["author"]) || !empty($_REQUES
         </nav>
         
         <div class="container">
-            <h1>Book search</h1>
+            <h1>Search & Borrow Books</h1>
             <div id="unique-section" class="row">
                 <div class="section" style="width:100%;">
                 <?php

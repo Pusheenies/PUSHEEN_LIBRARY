@@ -42,7 +42,7 @@ foreach($results as $book){
                     <a class="nav-link" href="../profile/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="book_search.php">Book Search</a>
+                    <a class="nav-link" href="book_search.php">Search & Borrow Books</a>
                 </li>
               </ul>
               <ul class="navbar-nav">
@@ -82,7 +82,7 @@ foreach($results as $book){
                     
                 }
             } else {
-                echo "Sorry, no results match your search.";
+                echo "<div class='text-center' style='width:100%;margin-top:70px;'><p style='color:white;font-size:20px;'>Sorry, no results match your search.</p></div>";
             }
         ?>
         </div>
